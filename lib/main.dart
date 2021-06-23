@@ -22,8 +22,13 @@ void main() async {
   //     .updateFuelInfo(FuelInformation(date: fuel1.date, quantity: 50));
   // print(await fuelDBHelper.fuelInfos());
 
-  runApp(
-    MaterialApp(
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       title: 'camera',
       home: Scaffold(
         appBar: AppBar(
@@ -43,6 +48,6 @@ void main() async {
           // ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
