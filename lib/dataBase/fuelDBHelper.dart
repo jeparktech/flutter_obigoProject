@@ -47,7 +47,6 @@ class FuelDBHelper {
     return List.generate(maps.length, (i) {
       return FuelInformation(
         date: maps[i]['date'],
-        address: maps[i]['address'],
         fuelType: maps[i]['fuelType'],
         unitPrice: maps[i]['unitPrice'],
         quantity: maps[i]['quantity'],
