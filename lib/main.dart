@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
+import './widgets/receipt_recog .dart';
 import './widgets/calendar.dart';
 
 void main() async {
@@ -28,7 +31,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -49,7 +52,7 @@ class _HomePageState extends State<HomePage> {
   PickedFile _image;
   final _picker = ImagePicker();
 
-  getGalleryImage() async{
+  getGalleryImage() async {
     var image = await _picker.getImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
@@ -63,29 +66,28 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-
   openBottomSheet(BuildContext context) {
-    showModalBottomSheet(context: context, builder: (BuildContext context) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-              leading: Icon(Icons.photo),
-              title: Text("Photos"),
-              onTap: () {
-                getGalleryImage();
-              }
-          ),
-          ListTile(
-              leading: Icon(Icons.camera),
-              title: Text("Camera"),
-              onTap: () {
-                getCameraImage();
-              }
-          ),
-        ],
-      );
-    },
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+                leading: Icon(Icons.photo),
+                title: Text("Photos"),
+                onTap: () {
+                  getGalleryImage();
+                }),
+            ListTile(
+                leading: Icon(Icons.camera),
+                title: Text("Camera"),
+                onTap: () {
+                  getCameraImage();
+                }),
+          ],
+        );
+      },
     );
   }
 
@@ -97,7 +99,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Home Screen'),
         centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.assessment_outlined),onPressed: () => {}), //통계버튼
+        leading: IconButton(
+            icon: Icon(Icons.assessment_outlined), onPressed: () => {}), //통계버튼
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -115,7 +118,7 @@ class _HomePageState extends State<HomePage> {
         selectedFontSize: 14,
         unselectedFontSize: 14,
         currentIndex: _selectedIndex,
-        onTap: (int index){
+        onTap: (int index) {
           setState(() {
             _selectedIndex = index;
           });
@@ -125,7 +128,6 @@ class _HomePageState extends State<HomePage> {
             title: Text('Home'),
             icon: Icon(Icons.home),
           ),
-
           BottomNavigationBarItem(
             title: Text('Category'),
             icon: Icon(Icons.category_outlined),
@@ -137,7 +139,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  List <Widget> _widgetOptions = [
+
+  List<Widget> _widgetOptions = [
     Calendar(),
     Text(
       'Category',
