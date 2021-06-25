@@ -2,7 +2,7 @@ class FuelInformation {
   final int date;
   final String fuelType;
   final int unitPrice;
-  final int quantity;
+  final double quantity;
   final int totalPrice;
 
   FuelInformation(

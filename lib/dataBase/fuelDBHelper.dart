@@ -19,7 +19,7 @@ class FuelDBHelper {
       join(await getDatabasesPath(), 'car_database.db'),
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE fuelInfos(date INTEGER PRIMARY KEY, address TEXT, fuelType TEXT, unitPrice INTEGER, quantity INTEGER, totalPrice INTEGER)');
+            'CREATE TABLE fuelInfos(date INTEGER PRIMARY KEY, address TEXT, fuelType TEXT, unitPrice INTEGER, quantity REAL, totalPrice INTEGER)');
       },
       version: 1,
     );

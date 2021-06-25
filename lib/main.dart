@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 import './widgets/receipt_recog .dart';
 
 void main() async {
@@ -35,17 +38,9 @@ class MyApp extends StatelessWidget {
           title: Text('차계부 demo-1'),
         ),
         body: Container(
-          child: ImageAndCamera(), //for test
-          // child: Column(
-          //   children: [
-          //     Container(
-          //       child: Text('Space for 캘린더'),
-          //     ),
-          //     Container(
-          //       child: Text('Space for 세부 일정'),
-          //     ),
-          //   ],
-          // ),
+          child: Column(
+            children: [],
+          ),
         ),
       ),
     );
