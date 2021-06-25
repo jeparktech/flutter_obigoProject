@@ -1,20 +1,14 @@
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class ReceiptRecognize extends StatelessWidget {
+class ReceiptRecognize {
   final File _image;
-  // final int date;
-  // final String fuelType;
-  // final int unitPrice;
-  // final double quantity;
-  // final int totalPrice;
 
   ReceiptRecognize(this._image);
 
-  Future<List<Map<String, dynamic>>> _detectFuelInfo() async {
+  Future<List<Map<String, dynamic>>> detectFuelInfo() async {
     String str = await visionAPICall();
     var fuelInfo = [
       {"unitPrice": _detectNumInfo(str)[0]},
@@ -23,6 +17,8 @@ class ReceiptRecognize extends StatelessWidget {
       {"fuelType": _detectFuelType(str)},
       {"date": 0}
     ];
+
+    return fuelInfo;
   }
 
   // 단가, 수량 인식 후 총액 계산
@@ -129,10 +125,5 @@ class ReceiptRecognize extends StatelessWidget {
     // var str3 = "";
 
     return str;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

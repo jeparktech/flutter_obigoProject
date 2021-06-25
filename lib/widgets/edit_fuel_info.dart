@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import '../functions/receipt_recognize.dart';
 
 class EditFuelInfo extends StatelessWidget {
   final File _image;
