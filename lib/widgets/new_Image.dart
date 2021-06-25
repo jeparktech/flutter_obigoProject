@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+import './input_fuel_info_page.dart';
 
 class NewImage extends StatefulWidget {
   @override
@@ -7,19 +11,13 @@ class NewImage extends StatefulWidget {
 }
 
 class _NewImageState extends State<NewImage> {
-  PickedFile _image;
-  final _picker = ImagePicker();
-  getGalleryImage() async {
-    var image = await _picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
-    });
-  }
+  File _image;
 
-  getCameraImage() async {
-    var image = await _picker.getImage(source: ImageSource.camera);
+  void getPhoto(ImageSource source) async {
+    final _picker = ImagePicker();
+    PickedFile f = await _picker.getImage(source: source);
     setState(() {
-      _image = image;
+      _image = File(f.path);
     });
   }
 
@@ -32,14 +30,34 @@ class _NewImageState extends State<NewImage> {
             leading: Icon(Icons.photo),
             title: Text("Photos"),
             onTap: () {
-              getGalleryImage();
+              getPhoto(ImageSource.gallery);
             }),
         ListTile(
             leading: Icon(Icons.camera),
             title: Text("Camera"),
             onTap: () {
-              getCameraImage();
+              getPhoto(ImageSource.camera);
             }),
+        _image == null
+            ? Container(
+                child: Text('Image not selected.'),
+              )
+            : Container(
+                child: Row(
+                  children: [
+                    Text('Image is selected'),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InputFuelInfo()));
+                      },
+                      child: Text('다음'),
+                    ),
+                  ],
+                ),
+              ),
       ],
     );
   }

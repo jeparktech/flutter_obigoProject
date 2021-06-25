@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_obigoproject/widgets/inputFuelInfo.dart';
+import 'package:flutter_obigoproject/widgets/input_fuel_info_page.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -132,7 +132,7 @@ class ImageAndCameraState extends State<ImageAndCamera> {
     // var str2 =
     //     "[매출전표(승인)]\n사업자: 238-42-00226 전화: 053-965-5152\n상 호: 계명2주유소\n주소: 대구 동구 이노밸리로 277\n인쇄: 2021-04-04 15:22:33\n대표: 이덕렬\n상품명\n단가\n수량\n금액\n주유기 : #06/06 경유\n1004\n1,318 59.94 79,000\n공급가액 :\n세 액 :\n71,818\n7,182\n합계금액\n현대개인!\n[신용승인(고객용)]\n카드번호 : 9490-88*- -9335 (**/**)\n가맹점NO : 411833002\n승 인 NO : 00591248\n승인일시 : 21/04/04 15:22:32\n매입사: 현대카드\n결재방법 : 일시불\n일련번호 :\n거래번호 : 4039\n감사합니다.!\n\u003c알림\u003e\n* 원거래 승인금액은 취소 되었습니다.\n* 승인금액 : 150,000\n* 승인번호 :00068443\n승인시간 :210404152020\n\u003c원거래취소\u003e\n* 취소금액 : 150,000\n* 취소시간 :210404152232\n감사합니다.!\n";
     // var str3 = "";
-    InputFuelInfo(str);
+    //InputFuelInfo(str);
   }
 
   @override
