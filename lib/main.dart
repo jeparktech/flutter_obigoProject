@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_obigoproject/widgets/new_Image.dart';
 
 import './widgets/receipt_recog .dart';
 import './widgets/calendar.dart';
@@ -49,44 +49,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PickedFile _image;
-  final _picker = ImagePicker();
-
-  getGalleryImage() async {
-    var image = await _picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
-    });
-  }
-
-  getCameraImage() async {
-    var image = await _picker.getImage(source: ImageSource.camera);
-    setState(() {
-      _image = image;
-    });
-  }
-
   openBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-                leading: Icon(Icons.photo),
-                title: Text("Photos"),
-                onTap: () {
-                  getGalleryImage();
-                }),
-            ListTile(
-                leading: Icon(Icons.camera),
-                title: Text("Camera"),
-                onTap: () {
-                  getCameraImage();
-                }),
-          ],
-        );
+        return NewImage();
       },
     );
   }
