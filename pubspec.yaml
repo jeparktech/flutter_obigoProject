@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  table_calendar: ^3.0.0
+  image_picker: ^0.8.0+4
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -35,8 +37,7 @@ dev_dependencies:
   sqflite: ^1.3.0
   path:
   http:
-  image_picker:
-
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
