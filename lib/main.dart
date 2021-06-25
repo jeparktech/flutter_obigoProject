@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_obigoproject/widgets/new_Image.dart';
 
-import './widgets/receipt_recog .dart';
+import 'widgets/receipt_recog_demo .dart';
 import './widgets/calendar.dart';
 
 void main() async {

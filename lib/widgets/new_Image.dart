@@ -51,7 +51,7 @@ class _NewImageState extends State<NewImage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InputFuelInfo()));
+                                builder: (context) => InputFuelInfo(_image)));
                       },
                       child: Text('다음'),
                     ),
