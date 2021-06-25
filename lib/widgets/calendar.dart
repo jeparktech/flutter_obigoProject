@@ -50,7 +50,7 @@ class _CalendarState extends State<Calendar> {
         calendarStyle: CalendarStyle(
           isTodayHighlighted: true,
           selectedDecoration: BoxDecoration(
-            color: Colors.blue,
+            color: Colors.lightBlue,
             shape: BoxShape.circle,
           ),
           selectedTextStyle: TextStyle(color: Colors.white),

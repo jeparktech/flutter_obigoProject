@@ -1,10 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_obigoproject/widgets/new_Image.dart';
-
-import './widgets/receipt_recog .dart';
 import './widgets/calendar.dart';
 
 void main() async {
@@ -35,8 +31,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Calendar',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+      theme: new ThemeData(
+        primaryColor: Colors.white,
+        textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.black, displayColor: Colors.black),
       ),
       home: HomePage(),
     );
@@ -49,6 +46,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  //camera button
   openBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -58,30 +58,32 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Screen'),
+        backgroundColor: Colors.white,
+        title: Text('Home Screen',), 
         centerTitle: true,
         leading: IconButton(
             icon: Icon(Icons.assessment_outlined), onPressed: () => {}), //통계버튼
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           openBottomSheet(context);
         },
-        child: Icon(Icons.camera_alt_outlined),
-        backgroundColor: Colors.grey,
+        child: Icon(Icons.camera_alt, color: Colors.grey,),
+        backgroundColor: Colors.white,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.grey, //Backgound color of the bar
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(.60),
+        backgroundColor: Colors.white, //Backgound color of the bar
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black.withOpacity(.60),
         selectedFontSize: 14,
         unselectedFontSize: 14,
         currentIndex: _selectedIndex,
@@ -109,9 +111,6 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _widgetOptions = [
     Calendar(),
-    Text(
-      'Category',
-      style: TextStyle(fontSize: 30),
-    ),
+    Text('Category', style: TextStyle(fontSize: 30),),
   ];
 }
