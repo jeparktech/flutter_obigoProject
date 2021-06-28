@@ -10,10 +10,11 @@ class ReceiptRecognize {
 
   Future<List<Map<String, dynamic>>> detectFuelInfo() async {
     String str = await visionAPICall();
+    List<num> _numInfoList = _detectNumInfo(str);
     var fuelInfo = [
-      {"unitPrice": _detectNumInfo(str)[0]},
-      {"quantity": _detectNumInfo(str)[1]},
-      {"totalPrice": _detectNumInfo(str[2])},
+      {"unitPrice": _numInfoList[0]},
+      {"quantity": _numInfoList[1]},
+      {"totalPrice": _numInfoList[2]},
       {"fuelType": _detectFuelType(str)},
       {"date": 0}
     ];
@@ -88,11 +89,12 @@ class ReceiptRecognize {
   }
 
   Future<String> visionAPICall() async {
+    print('visionAPI is called');
     List<int> imageBytes = _image.readAsBytesSync();
     //print(imageBytes);
     String base64Image = base64Encode(imageBytes);
     //print(base64Image);
-    final _request_str = {
+    final request_str = {
       "requests": [
         {
           "image": {"content": "$base64Image"},
@@ -108,7 +110,7 @@ class ReceiptRecognize {
 
     var url = Uri.parse(
         'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDtG8TAiP0xFYTNAle4DP2UfEGYqtAlzPM');
-    var response = await http.post(url, body: json.encode(_request_str));
+    var response = await http.post(url, body: json.encode(request_str));
     //print('Response body: ${response.body}');
 
     var responseJson = json.decode(response.body);
