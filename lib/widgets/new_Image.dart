@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import './input_fuel_info_page.dart';
-import '../functions/receipt_recognize.dart';
 
 class NewImage extends StatefulWidget {
   @override
@@ -14,11 +13,6 @@ class NewImage extends StatefulWidget {
 class _NewImageState extends State<NewImage> {
   File _image;
   List _list;
-  bool loading = true;
-
-  void getFuelInfoList() async {
-    _list = await ReceiptRecognize(_image).detectFuelInfo();
-  }
 
   void getPhoto(ImageSource source) async {
     final _picker = ImagePicker();
@@ -27,7 +21,12 @@ class _NewImageState extends State<NewImage> {
     setState(() {
       if (f != null) {
         _image = File(f.path);
-        getFuelInfoList();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => InputFuelInfo(_image, _list),
+          ),
+        );
       }
     });
   }
@@ -51,29 +50,6 @@ class _NewImageState extends State<NewImage> {
               onTap: () {
                 getPhoto(ImageSource.camera);
               }),
-          _image == null
-              ? Container(
-                  child: Text('Image not selected.'),
-                )
-              : Container(
-                  child: Row(
-                    children: [
-                      Text('Image is selected'),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  InputFuelInfo(_image, _list),
-                            ),
-                          );
-                        },
-                        child: Text('다음'),
-                      ),
-                    ],
-                  ),
-                ),
         ],
       ),
     );

@@ -2,13 +2,13 @@
 import 'dart:io';
 
 import './loading.dart';
-
+import '../functions/receipt_recognize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_obigoproject/widgets/edit_fuel_info.dart';
 
 class InputFuelInfo extends StatefulWidget {
   final File _image;
-  final List _list;
+  List _list;
 
   InputFuelInfo(this._image, this._list);
 
@@ -17,17 +17,42 @@ class InputFuelInfo extends StatefulWidget {
 }
 
 class _InputFuelInfoState extends State<InputFuelInfo> {
-  bool _isLoading = true;
+  Widget _body = Loading();
 
-  void statusChecker() async {
-    if (widget._list == null) {
-      sleep(Duration(seconds: 1));
-      statusChecker();
-    } else {
-      setState(() {
-        _isLoading = true;
-      });
-    }
+  @override
+  void initState() {
+    _getFuelInfoList();
+  }
+
+  Widget _getFuelInfoList() {
+    ReceiptRecognize(widget._image).detectFuelInfo().then((list) {
+      widget._list = list;
+      if (widget._list != null) {
+        setState(() {
+          _body = _fuelInfoPage();
+        });
+      }
+    });
+  }
+
+  Widget _fuelInfoPage() {
+    return Column(
+      children: [
+        Container(
+          child: EditFuelInfo(widget._image, widget._list),
+        ),
+        // Expanded(
+        //   child: Center(child: photo),
+        // ),
+        RaisedButton(
+          child: Text('이전'),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
   }
 
   @override
@@ -42,25 +67,7 @@ class _InputFuelInfoState extends State<InputFuelInfo> {
           appBar: AppBar(
             title: Text('Second Page'),
           ),
-          body: _isLoading
-              ? Loading()
-              : Column(
-                  children: [
-                    Container(
-                      child: EditFuelInfo(widget._image, widget._list),
-                    ),
-                    // Expanded(
-                    //   child: Center(child: photo),
-                    // ),
-                    RaisedButton(
-                      child: Text('이전'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
-                ),
+          body: _body,
         ));
   }
 }
