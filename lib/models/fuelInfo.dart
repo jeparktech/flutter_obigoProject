@@ -1,5 +1,5 @@
 class FuelInformation {
-  final int date;
+  final String date;
   final String fuelType;
   final int unitPrice;
   final double quantity;
@@ -21,6 +21,8 @@ class FuelInformation {
       'totalPrice': totalPrice
     };
   }
+
+ 
 
   @override
   String toString() {

@@ -84,7 +84,7 @@ class ImageAndCameraState extends State<ImageAndCamera> {
 
   void _addFuelInformations(String str) {
     final newFI = FuelInformation(
-      date: 00,
+      date: null,
       fuelType: _detectFuelType(str),
       unitPrice: _detectNumInfo(str)[0],
       quantity: _detectNumInfo(str)[1],
