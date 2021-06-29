@@ -1,10 +1,14 @@
 //영수증 인식 후 정보 사용자 확인 및 수정 페이지
 import 'dart:io';
 
+import 'package:flutter_obigoproject/models/fuelInfo.dart';
+
 import './loading.dart';
 import '../functions/receipt_recognize.dart';
+import './edit_fuel_info.dart';
+import '../dataBase/fuelDBHelper.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_obigoproject/widgets/edit_fuel_info.dart';
 
 class InputFuelInfo extends StatefulWidget {
   final File _image;
@@ -18,6 +22,25 @@ class InputFuelInfo extends StatefulWidget {
 
 class _InputFuelInfoState extends State<InputFuelInfo> {
   Widget _body = Loading();
+
+  void _addFuelInfo(
+      {String date,
+      int unitPrice,
+      double quantity,
+      int totalPrice,
+      String fuelType}) async {
+    final newFuelInfo = FuelInformation(
+        date: date,
+        fuelType: fuelType,
+        quantity: quantity,
+        totalPrice: totalPrice,
+        unitPrice: unitPrice);
+
+    var fuelDBHelper = FuelDBHelper();
+    await fuelDBHelper.insertFuelInfo(newFuelInfo);
+
+    print(await fuelDBHelper.fuelInfos());
+  }
 
   @override
   void initState() {
@@ -39,7 +62,7 @@ class _InputFuelInfoState extends State<InputFuelInfo> {
     return Column(
       children: [
         Container(
-          child: EditFuelInfo(widget._image, widget._list),
+          child: EditFuelInfo(_addFuelInfo, widget._list),
         ),
         // Expanded(
         //   child: Center(child: photo),

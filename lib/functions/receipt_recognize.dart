@@ -10,14 +10,19 @@ class ReceiptRecognize {
 
   Future<List<Map<String, dynamic>>> detectFuelInfo() async {
     String str = await visionAPICall();
+
     List<num> _numInfoList = _detectNumInfo(str);
+
     var fuelInfo = [
       {"unitPrice": _numInfoList[0]},
       {"quantity": _numInfoList[1]},
       {"totalPrice": _numInfoList[2]},
       {"fuelType": _detectFuelType(str)},
-      {"date": 0}
+      {"date": _detectDate(str)}
     ];
+
+    print(
+        '********인식한 정보********\n날짜: ${fuelInfo[4]['date']}, 유종: ${fuelInfo[3]['fuelType']}, 단가: ${fuelInfo[0]['unitPrice']}, 수량: ${fuelInfo[1]['quantity']}, 총액: ${fuelInfo[2]['totalPrice']}');
 
     return fuelInfo;
   }
@@ -26,7 +31,9 @@ class ReceiptRecognize {
   List<num> _detectNumInfo(String str) {
     List<num> numInfos = [];
     int unitPrice = 0;
-    double numItems = 0;
+    double quantity = 0;
+    bool gotFirstUnitPrice = false;
+    bool gotFirstQuantity = false;
 
     var regex = new RegExp(r'([0-9]{1,3},+?[0-9]{3}|[0-9]{1,3}\.+?[0-9]{1,3})');
     var allMatches = regex.allMatches(str);
@@ -35,20 +42,19 @@ class ReceiptRecognize {
       String finalMatch = match.replaceAll(',', '');
       double matchToNum = double.parse(finalMatch);
       //print(matchToNum);
-      if (matchToNum >= 1000 && matchToNum <= 2000) {
+      if (matchToNum >= 1000 && matchToNum <= 2000 && !gotFirstUnitPrice) {
         if (matchToNum == matchToNum.floor()) {
           unitPrice = matchToNum.floor();
+          gotFirstUnitPrice = true;
         }
-      } else if (matchToNum <= 100) {
-        numItems = matchToNum;
+      } else if (matchToNum <= 100 && !gotFirstQuantity) {
+        quantity = matchToNum;
+        gotFirstQuantity = true;
       }
     }
     numInfos.add(unitPrice);
-    numInfos.add(numItems);
-    numInfos.add((unitPrice * numItems).floor());
-
-    print(
-        '단가: $unitPrice, 수량: $numItems, 총액: ${(unitPrice * numItems).floor()}');
+    numInfos.add(quantity);
+    numInfos.add((unitPrice * quantity).floor());
 
     return numInfos;
   }
@@ -64,28 +70,31 @@ class ReceiptRecognize {
     } catch (_) {
       fuelType = "not detected";
     }
-
-    print('유종: $fuelType');
-
     return fuelType;
   }
 
   // 날짜 인식
   String _detectDate(String str) {
-    String yyMMdd = "";
+    String date = "";
 
     var regex = new RegExp(
         '((20){0,1}2[0-9]-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])|(20){0,1}2[0-9]/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01]))');
     var firstMatch = regex.firstMatch(str);
     try {
-      yyMMdd = firstMatch.input.substring(firstMatch.start, firstMatch.end);
+      date = firstMatch.input.substring(firstMatch.start, firstMatch.end);
     } catch (_) {
-      yyMMdd = "not detected";
+      return date;
     }
 
-    print('날짜: $yyMMdd');
+    if (date[2] == '-' || date[2] == '/') {
+      date = '20' + date;
+    }
 
-    return yyMMdd;
+    if (date.contains('/')) {
+      date = date.replaceAll('/', '-');
+    }
+
+    return date;
   }
 
   Future<String> visionAPICall() async {
