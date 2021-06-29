@@ -26,6 +26,6 @@ class FuelInformation {
 
   @override
   String toString() {
-    return '주유 정보\n날짜: $date\n유종: $fuelType\n단가: $unitPrice\n수량: $quantity\n총액: $totalPrice';
+    return '\n날짜: $date\n유종: $fuelType\n단가: $unitPrice\n수량: $quantity\n총액: $totalPrice\n';
   }
 }
