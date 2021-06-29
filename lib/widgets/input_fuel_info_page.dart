@@ -39,7 +39,11 @@ class _InputFuelInfoState extends State<InputFuelInfo> {
     var fuelDBHelper = FuelDBHelper();
     await fuelDBHelper.insertFuelInfo(newFuelInfo);
 
-    print(await fuelDBHelper.fuelInfos());
+    // DB에 정보가 잘 들어갔는지 확인
+    List<FuelInformation> fuelInfoList = await fuelDBHelper.fuelInfos();
+    for (int i = 0; i < fuelInfoList.length; i++) {
+      print('Fuel Information #${i + 1}-----------------${fuelInfoList[i]}\n');
+    }
   }
 
   @override
@@ -59,7 +63,9 @@ class _InputFuelInfoState extends State<InputFuelInfo> {
   }
 
   Widget _fuelInfoPage() {
-    return Column(
+    return ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.all(15),
       children: [
         Container(
           child: EditFuelInfo(_addFuelInfo, widget._list),

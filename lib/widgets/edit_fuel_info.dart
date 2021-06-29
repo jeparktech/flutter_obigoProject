@@ -13,13 +13,6 @@ class EditFuelInfo extends StatelessWidget {
   EditFuelInfo(this._addFuelInfo, this._list);
 
   void _submitData() {
-    // if (enteredFuelType.isEmpty ||
-    //     enteredUnitPrice <= 0 ||
-    //     enteredQuantitiy <= 0 ||
-    //     enteredTotalPrice <= 0) {
-    //   return;
-    // }
-
     _addFuelInfo(
       date: _savedDate,
       fuelType: _savedFuelType,
@@ -103,8 +96,9 @@ class EditFuelInfo extends StatelessWidget {
     return Form(
       key: this.formKey,
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             renderTextFormField(
               icon: Icon(Icons.date_range),
