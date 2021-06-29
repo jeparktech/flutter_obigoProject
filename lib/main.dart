@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_obigoproject/models/fuelInfo.dart';
 import 'package:flutter_obigoproject/widgets/new_Image.dart';
-import 'package:flutter_obigoproject/widgets/tansaction_list.dart';
-
-import 'widgets/receipt_recog_demo .dart';
 import './widgets/calendar.dart';
 
 void main() async {
@@ -37,7 +34,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Calendar',
       theme: new ThemeData(
         primaryColor: Colors.white,
-        textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.black, displayColor: Colors.black),
+        textTheme: Theme.of(context)
+            .textTheme
+            .apply(bodyColor: Colors.black, displayColor: Colors.black),
       ),
       home: HomePage(),
     );
@@ -70,22 +69,24 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Home Screen',), 
+        title: Text(
+          'Home Screen',
+        ),
         centerTitle: true,
         leading: IconButton(
             icon: Icon(Icons.assessment_outlined), onPressed: () => {}), //통계버튼
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           openBottomSheet(context);
         },
-        child: Icon(Icons.camera_alt, color: Colors.grey,),
+        child: Icon(
+          Icons.camera_alt,
+          color: Colors.grey,
+        ),
         backgroundColor: Colors.white,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white, //Backgound color of the bar
@@ -121,6 +122,9 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _widgetOptions = [
     Calendar(),
-    Text('Category', style: TextStyle(fontSize: 30),),
+    Text(
+      'Category',
+      style: TextStyle(fontSize: 30),
+    ),
   ];
 }

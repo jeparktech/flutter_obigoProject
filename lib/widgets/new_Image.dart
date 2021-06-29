@@ -12,53 +12,50 @@ class NewImage extends StatefulWidget {
 
 class _NewImageState extends State<NewImage> {
   File _image;
+  List _list;
 
-  void getPhoto(ImageSource source) async {
+  void navigateToNextPage(BuildContext ctx) {
+    Navigator.of(ctx).push(MaterialPageRoute(
+      builder: (_) {
+        return InputFuelInfo(_image, _list);
+      },
+    ));
+  }
+
+  void getPhoto(ImageSource source, BuildContext ctx) async {
     final _picker = ImagePicker();
     PickedFile f = await _picker.getImage(source: source);
+
     setState(() {
-      _image = File(f.path);
+      if (f != null) {
+        _image = File(f.path);
+
+        navigateToNextPage(ctx);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        ListTile(
-            leading: Icon(Icons.photo),
-            title: Text("Photos"),
-            onTap: () {
-              getPhoto(ImageSource.gallery);
-            }),
-        ListTile(
-            leading: Icon(Icons.camera),
-            title: Text("Camera"),
-            onTap: () {
-              getPhoto(ImageSource.camera);
-            }),
-        _image == null
-            ? Container(
-                child: Text('Image not selected.'),
-              )
-            : Container(
-                child: Row(
-                  children: [
-                    Text('Image is selected'),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InputFuelInfo(_image)));
-                      },
-                      child: Text('다음'),
-                    ),
-                  ],
-                ),
-              ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ListTile(
+              leading: Icon(Icons.photo),
+              title: Text("Photos"),
+              onTap: () {
+                getPhoto(ImageSource.gallery, context);
+              }),
+          ListTile(
+              leading: Icon(Icons.camera),
+              title: Text("Camera"),
+              onTap: () {
+                getPhoto(ImageSource.camera, context);
+              }),
+        ],
+      ),
     );
   }
 }
