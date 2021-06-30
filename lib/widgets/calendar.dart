@@ -43,6 +43,24 @@ class _CalendarState extends State<Calendar> {
     return _events[day] ?? [];
   }
 
+  openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(title: Text("Edit"), onTap: () {}),
+              ListTile(title: Text("Delete"), onTap: () {}),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,6 +138,12 @@ class _CalendarState extends State<Calendar> {
                       },
                       title: Text('${value[index].totalPrice} 원'),
                       subtitle: Text('${value[index].date}'),
+                      trailing: IconButton(
+                        icon: Icon(Icons.more_vert),
+                        onPressed: () {
+                          openBottomSheet(context);
+                        },
+                      ),
                     ),
                   );
                 },
