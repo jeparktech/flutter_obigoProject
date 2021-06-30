@@ -52,8 +52,16 @@ class _CalendarState extends State<Calendar> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              ListTile(title: Text("Edit"), onTap: () {}),
-              ListTile(title: Text("Delete"), onTap: () {}),
+              ListTile(
+                  title: Center(
+                    child: Text("Edit"),
+                  ),
+                  onTap: () {}),
+              ListTile(
+                  title: Center(
+                    child: Text("Delete"),
+                  ),
+                  onTap: () {}),
             ],
           ),
         );
@@ -186,8 +194,6 @@ LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
         totalPrice: 36000,
         unitPrice: 1350)
   ];
-
-  print(fuelInfoList);
   final Map<DateTime, List<FuelInformation>> _kEventSource = Map.fromIterable(
       fuelInfoList,
       key: (item) => DateTime.parse(item.date),
