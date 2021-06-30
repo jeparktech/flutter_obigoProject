@@ -143,9 +143,15 @@ LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
     FuelInformation(
         date: '2021-06-29',
         fuelType: '경유',
-        quantity: 59.65,
-        totalPrice: 89000,
-        unitPrice: 1350)
+        quantity: 33.33,
+        totalPrice: 59000,
+        unitPrice: 1150),
+    FuelInformation(
+        date: '2021-06-15',
+        fuelType: '휘발유',
+        quantity: 42.64,
+        totalPrice: 76000,
+        unitPrice: 1290)
   ];
   print(fuelInfoList);
   final Map<DateTime, List<FuelInformation>> _kEventSource = Map.fromIterable(
