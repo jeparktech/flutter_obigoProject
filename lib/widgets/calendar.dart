@@ -138,9 +138,9 @@ class _CalendarState extends State<Calendar> {
 }
 
 LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
-  var fuelDBHelper = FuelDBHelper();
-  var fuelInfoList =  fuelDBHelper.fuelInfos();
-/*
+  //var fuelDBHelper = FuelDBHelper();
+  //var fuelInfoList =  fuelDBHelper.fuelInfos();
+
   var fuelInfoList = [
     FuelInformation(
         date: '2021-06-29',
@@ -169,7 +169,7 @@ LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
         totalPrice: 36000,
         unitPrice: 1350)
   ];
-  */
+
   print(fuelInfoList);
   final Map<DateTime, List<FuelInformation>> _kEventSource = Map.fromIterable(
       fuelInfoList,
