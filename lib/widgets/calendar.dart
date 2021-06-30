@@ -1,10 +1,9 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_obigoproject/dataBase/fuelDBHelper.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../models/fuelInfo.dart';
-import '../dataBase/fuelDBHelper.dart';
 
 class Calendar extends StatefulWidget {
   @override
@@ -115,8 +114,12 @@ class _CalendarState extends State<Calendar> {
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: ListTile(
-                      onTap: () => print('${value[index]}'),
-                      title: Text('${value[index].toString()}'),
+                      leading: Icon(Icons.local_gas_station_rounded),
+                      onTap: () {
+                        print('${value[index]}');
+                      },
+                      title: Text('${value[index].totalPrice} 원'),
+                      subtitle: Text('${value[index].date}'),
                     ),
                   );
                 },
@@ -131,11 +134,17 @@ class _CalendarState extends State<Calendar> {
 
 LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
   //var fuelDBHelper = FuelDBHelper();
-  //var fuelInfoList = await fuelDBHelper.fuelInfos();
+  //var fuelInfoList =  fuelDBHelper.fuelInfos();
 
   var fuelInfoList = [
     FuelInformation(
         date: '2021-06-29',
+        fuelType: '휘발유',
+        quantity: 59.65,
+        totalPrice: 53000,
+        unitPrice: 1350),
+    FuelInformation(
+        date: '2021-06-15',
         fuelType: '휘발유',
         quantity: 59.65,
         totalPrice: 89000,
@@ -143,16 +152,17 @@ LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
     FuelInformation(
         date: '2021-06-29',
         fuelType: '경유',
-        quantity: 33.33,
-        totalPrice: 59000,
-        unitPrice: 1150),
+        quantity: 59.65,
+        totalPrice: 36000,
+        unitPrice: 1350),
     FuelInformation(
-        date: '2021-06-15',
-        fuelType: '휘발유',
-        quantity: 42.64,
-        totalPrice: 76000,
-        unitPrice: 1290)
+        date: '2021-06-07',
+        fuelType: '경유',
+        quantity: 59.65,
+        totalPrice: 36000,
+        unitPrice: 1350)
   ];
+
   print(fuelInfoList);
   final Map<DateTime, List<FuelInformation>> _kEventSource = Map.fromIterable(
       fuelInfoList,

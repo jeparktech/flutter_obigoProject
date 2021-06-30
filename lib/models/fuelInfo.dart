@@ -6,6 +6,7 @@ class FuelInformation {
   final int totalPrice;
 
   FuelInformation(
+
       {this.date,
       this.fuelType,
       this.unitPrice,
