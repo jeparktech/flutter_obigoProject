@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import './models/fuelInfo.dart';
 import './widgets/new_Image.dart';
 import './widgets/calendar.dart';
 
