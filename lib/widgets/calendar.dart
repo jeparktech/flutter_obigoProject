@@ -20,17 +20,6 @@ class _CalendarState extends State<Calendar> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
-  // void test(List<FuelInformation> list) {
-  //   for (int i = 0; i < _events.length; i++) {
-  //     _selectedDay = DateTime.parse(list[i].date);
-  //     if (_selectedEvents[_selectedDay] != null) {
-  //       _selectedEvents[_selectedDay].add(list[i]);
-  //     } else {
-  //       _selectedEvents[_selectedDay] = [list[i]];
-  //     }
-  //   }
-  // }
-
   void initState() {
     super.initState();
     if (_events == null) {

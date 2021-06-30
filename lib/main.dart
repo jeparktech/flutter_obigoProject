@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_obigoproject/widgets/statistics.dart';
 import './models/fuelInfo.dart';
 import './widgets/new_Image.dart';
 import './widgets/calendar.dart';
@@ -79,7 +80,14 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: true,
         leading: IconButton(
-            icon: Icon(Icons.assessment_outlined), onPressed: () => {}), //통계버튼
+            icon: Icon(
+              Icons.assessment_outlined), 
+              onPressed: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Statistics()),);
+              }
+              ), //통계버튼
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -112,7 +120,9 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             title: Text('Category'),
-            icon: Icon(Icons.category_outlined),
+            
+              icon: Icon(Icons.category_outlined),
+             
           ),
         ],
       ),
