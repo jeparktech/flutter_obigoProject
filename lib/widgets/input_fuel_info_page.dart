@@ -48,6 +48,7 @@ class _InputFuelInfoState extends State<InputFuelInfo> {
 
   @override
   void initState() {
+    super.initState();
     _getFuelInfoList();
   }
 
