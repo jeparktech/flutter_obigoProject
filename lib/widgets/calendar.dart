@@ -97,13 +97,33 @@ class _CalendarState extends State<Calendar> {
             formatButtonShowsNext: false,
           ),
         ),
-        // ..._getEventsForDay(_selectedDay)
-        //     .map((FuelInformation event) => ListTile(
-        //           title: Text(
-        //             event.toString(),
-        //           ),
-        //         )),
-        // RaisedButton(onPressed: () => test(_events), child: Text('test')),
+        const SizedBox(height: 8.0),
+        Expanded(
+          child: ValueListenableBuilder<List<FuelInformation>>(
+            valueListenable: _selectedEvents,
+            builder: (context, value, _) {
+              return ListView.builder(
+                itemCount: value.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 4.0,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: ListTile(
+                      onTap: () => print('${value[index]}'),
+                      title: Text('${value[index].toString()}'),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
       ]),
     );
   }
@@ -117,6 +137,12 @@ LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
     FuelInformation(
         date: '2021-06-29',
         fuelType: '휘발유',
+        quantity: 59.65,
+        totalPrice: 89000,
+        unitPrice: 1350),
+    FuelInformation(
+        date: '2021-06-29',
+        fuelType: '경유',
         quantity: 59.65,
         totalPrice: 89000,
         unitPrice: 1350)
