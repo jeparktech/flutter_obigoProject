@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:flutter_obigoproject/dataBase/fuelDBHelper.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../models/fuelInfo.dart';
@@ -11,7 +12,7 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  
+
   LinkedHashMap<DateTime, List<FuelInformation>> _events = getEvents();
   ValueNotifier<List<FuelInformation>> _selectedEvents;
 
@@ -98,13 +99,38 @@ class _CalendarState extends State<Calendar> {
             formatButtonShowsNext: false,
           ),
         ),
-        // ..._getEventsForDay(_selectedDay)
-        //     .map((FuelInformation event) => ListTile(
-        //           title: Text(
-        //             event.toString(),
-        //           ),
-        //         )),
-        // RaisedButton(onPressed: () => test(_events), child: Text('test')),
+        const SizedBox(height: 8.0),
+        Expanded(
+          child: ValueListenableBuilder<List<FuelInformation>>(
+            valueListenable: _selectedEvents,
+            builder: (context, value, _) {
+              return ListView.builder(
+                itemCount: value.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 4.0,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: ListTile(
+                      leading: Icon(Icons.local_gas_station_rounded),
+                      onTap: () {
+                       
+                        print('${value[index]}');},
+                      title: Text('${value[index].totalPrice}'),
+                      subtitle: Text('${value[index].date}'),
+                    ),
+                  );
+                  
+                },
+              );
+            },
+          ),
+        ),
       ]),
     );
   }
@@ -112,23 +138,38 @@ class _CalendarState extends State<Calendar> {
 }
 
 LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
-  //var fuelDBHelper = FuelDBHelper();
-  //var fuelInfoList = await fuelDBHelper.fuelInfos();
-
+  var fuelDBHelper = FuelDBHelper();
+  var fuelInfoList =  fuelDBHelper.fuelInfos();
+/*
   var fuelInfoList = [
     FuelInformation(
         date: '2021-06-29',
         fuelType: '휘발유',
         quantity: 59.65,
-        totalPrice: 89000,
+        totalPrice: 53000,
         unitPrice: 1350),
-         FuelInformation(
+    FuelInformation(
         date: '2021-06-15',
         fuelType: '휘발유',
         quantity: 59.65,
         totalPrice: 89000,
+        unitPrice: 1350),
+         
+    FuelInformation(
+        date: '2021-06-29',
+        fuelType: '경유',
+        quantity: 59.65,
+        totalPrice: 36000,
+        unitPrice: 1350),
+
+    FuelInformation(
+        date: '2021-06-07',
+        fuelType: '경유',
+        quantity: 59.65,
+        totalPrice: 36000,
         unitPrice: 1350)
   ];
+  */
   print(fuelInfoList);
   final Map<DateTime, List<FuelInformation>> _kEventSource = Map.fromIterable(
       fuelInfoList,
