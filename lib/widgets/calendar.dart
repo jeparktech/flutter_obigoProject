@@ -55,11 +55,11 @@ class _CalendarState extends State<Calendar> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-              title: Text("Edit"),
+              title: Center(child:Text("Edit") ,) ,
               onTap: () {
           }),
           ListTile(
-              title: Text("Delete"),
+              title:Center(child:Text("Delete") ,) ,
               onTap: () {  
            }),
         ],
