@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_obigoproject/models/fuelInfo.dart';
-import 'package:flutter_obigoproject/widgets/new_Image.dart';
+import './models/fuelInfo.dart';
+import './widgets/new_Image.dart';
 import './widgets/calendar.dart';
 
 void main() async {
@@ -64,8 +64,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -111,13 +116,10 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: 
-          Center(
-            child: _widgetOptions.elementAt(_selectedIndex),
-          ),
-        
-      );
-     
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+    );
   }
 
   List<Widget> _widgetOptions = [
