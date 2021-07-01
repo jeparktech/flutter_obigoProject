@@ -68,7 +68,7 @@ class FuelDBHelper {
   }
 
   //Delete the fuelInfo in the database
-  Future<void> deleteFuelInfo(int date) async {
+  Future<void> deleteFuelInfo(String date) async {
     final db = await fuelDB;
 
     await db.delete(

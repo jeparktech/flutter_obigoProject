@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_obigoproject/widgets/calendar/calendar_loader.dart';
+
+import '../main.dart';
+import '../widgets/calendar/calendar.dart';
 
 class EditFuelInfo extends StatefulWidget {
   final List _list;
@@ -119,7 +123,8 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
             '********저장된 정보********\n날짜: $_savedDate, 유종: $_savedFuelType, 단가: $_savedUnitPrice, 수량: $_savedQuantity, 총액: $_savedTotalPrice',
           );
         }
-        setState(() {});
+        Navigator.push(context,
+            MaterialPageRoute(builder: (BuildContext context) => MyApp()));
       },
       child: Text('저장'),
     );

@@ -1,11 +1,12 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_obigoproject/widgets/input_fuel_info_page.dart';
-
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/fuelInfo.dart';
+import '../../dataBase/fuelDBHelper.dart';
+import '../../main.dart';
 
 class Calendar extends StatefulWidget {
   LinkedHashMap<DateTime, List<FuelInformation>> _events;
@@ -32,7 +33,8 @@ class _CalendarState extends State<Calendar> {
     return widget._events[day] ?? [];
   }
 
-  openBottomSheet(BuildContext context, List<FuelInformation> list) {
+  openBottomSheet(BuildContext context, List<FuelInformation> fuelList,
+      FuelInformation fuelInfo) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -56,7 +58,17 @@ class _CalendarState extends State<Calendar> {
                   title: Center(
                     child: Text("Delete"),
                   ),
-                  onTap: () {}),
+                  onTap: () {
+                    setState(() {
+                      fuelList.remove(fuelInfo); //list에서 삭제
+                      FuelDBHelper().deleteFuelInfo(fuelInfo.date); //DB에서 삭제
+                    });
+                    Navigator.pop(context);
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (BuildContext context) => MyApp()));
+                  }),
             ],
           ),
         );
@@ -144,7 +156,7 @@ class _CalendarState extends State<Calendar> {
                       trailing: IconButton(
                         icon: Icon(Icons.more_vert),
                         onPressed: () {
-                          openBottomSheet(context, value);
+                          openBottomSheet(context, value, value[index]);
                         },
                       ),
                     ),
