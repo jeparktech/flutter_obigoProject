@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_obigoproject/widgets/calendar/calendar_loader.dart';
+import '../models/fuelInfo.dart';
+import '../widgets/calendar/calendar_loader.dart';
 
 import '../main.dart';
 import '../widgets/calendar/calendar.dart';
+import '../dataBase/fuelDBHelper.dart';
 
 class EditFuelInfo extends StatefulWidget {
-  final List _list;
-  final Function _addFuelInfo;
+  final FuelInformation _fuelInfo;
 
-  EditFuelInfo(this._addFuelInfo, this._list);
+  EditFuelInfo(this._fuelInfo);
 
   @override
   _EditFuelInfoState createState() => _EditFuelInfoState();
@@ -26,8 +27,31 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
 
   int selectedIdx = 0;
 
+  void _addFuelInfo(
+      {String date,
+      int unitPrice,
+      double quantity,
+      int totalPrice,
+      String fuelType}) async {
+    final newFuelInfo = FuelInformation(
+        date: date,
+        fuelType: fuelType,
+        quantity: quantity,
+        totalPrice: totalPrice,
+        unitPrice: unitPrice);
+
+    var fuelDBHelper = FuelDBHelper();
+    await fuelDBHelper.insertFuelInfo(newFuelInfo);
+
+    // DB에 정보가 잘 들어갔는지 확인
+    List<FuelInformation> fuelInfoList = await fuelDBHelper.fuelInfos();
+    for (int i = 0; i < fuelInfoList.length; i++) {
+      print('Fuel Information #${i + 1}-----------------${fuelInfoList[i]}\n');
+    }
+  }
+
   void _submitData() {
-    widget._addFuelInfo(
+    _addFuelInfo(
       date: _savedDate,
       fuelType: _savedFuelType,
       unitPrice: _savedUnitPrice,
@@ -76,6 +100,7 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
       @required List<String> fuelTypeList,
       @required Icon icon,
       @required String selectedFuelType}) {
+    _savedFuelType = selectedFuelType;
     return Column(
       children: [
         Row(
@@ -96,10 +121,16 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
           items: fuelTypeList.map((value) {
             return DropdownMenuItem(value: value, child: Text(value));
           }).toList(),
+          onTap: () {
+            if (this.formKey.currentState.validate()) {
+              this.formKey.currentState.save();
+            }
+            print('button is tapped');
+          },
           onChanged: (value) {
             setState(() {
               _savedFuelType = value;
-              widget._list[3]['fuelType'] = value;
+              widget._fuelInfo.fuelType = value;
             });
           },
         ),
@@ -146,80 +177,105 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: this.formKey,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            renderTextFormField(
-              icon: Icon(Icons.date_range),
-              label: '날짜',
-              onSaved: (val) {
-                _savedDate = val;
-              },
-              validator: (val) {
-                if (!RegExp(r'202[0-9]-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])')
-                        .hasMatch(val) ||
-                    val.length > 10) {
-                  return '잘못된 형식입니다. (YYYY-MM-DD)';
-                }
-                return null;
-              },
-              initialValue: widget._list[4]['date'],
+    return ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.all(15),
+      children: [
+        Container(
+          child: Form(
+            key: this.formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  renderTextFormField(
+                    icon: Icon(Icons.date_range),
+                    label: '날짜',
+                    onSaved: (val) {
+                      _savedDate = val;
+                    },
+                    validator: (val) {
+                      if (!RegExp(r'202[0-9]-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])')
+                              .hasMatch(val) ||
+                          val.length > 10) {
+                        return '잘못된 형식입니다. (YYYY-MM-DD)';
+                      }
+                      return null;
+                    },
+                    initialValue:
+                        _savedDate == null ? widget._fuelInfo.date : _savedDate,
+                  ),
+                  renderDropDownButtonForFuelType(
+                      fuelTypeList: _fuelTypeList,
+                      icon: Icon(Icons.local_gas_station),
+                      label: '유종',
+                      selectedFuelType: widget._fuelInfo.fuelType),
+                  renderTextFormField(
+                    icon: Icon(Icons.price_check),
+                    label: '단가',
+                    onSaved: (val) {
+                      _savedUnitPrice = int.parse(val);
+                    },
+                    validator: (val) {
+                      if (!_isInteger(val)) {
+                        return '숫자만 입력해주세요';
+                      }
+                      return null;
+                    },
+                    initialValue: _savedUnitPrice == null
+                        ? widget._fuelInfo.unitPrice.toString()
+                        : _savedUnitPrice.toString(),
+                  ),
+                  renderTextFormField(
+                    icon: Icon(Icons.stacked_bar_chart),
+                    label: '수량',
+                    onSaved: (val) {
+                      _savedQuantity = double.parse(val);
+                    },
+                    validator: (val) {
+                      if (!_isDouble(val)) {
+                        return '숫자만 입력해주세요';
+                      }
+                      return null;
+                    },
+                    initialValue: _savedQuantity == null
+                        ? widget._fuelInfo.quantity.toString()
+                        : _savedQuantity.toString(),
+                  ),
+                  renderTextFormField(
+                    icon: Icon(Icons.attach_money_outlined),
+                    label: '총액',
+                    onSaved: (val) {
+                      _savedTotalPrice = int.parse(val);
+                    },
+                    validator: (val) {
+                      if (!_isInteger(val)) {
+                        return '숫자만 입력해주세요';
+                      }
+                      return null;
+                    },
+                    initialValue: _savedTotalPrice == null
+                        ? widget._fuelInfo.totalPrice.toString()
+                        : _savedTotalPrice.toString(),
+                  ),
+                  renderButton(context),
+                ],
+              ),
             ),
-            renderDropDownButtonForFuelType(
-                fuelTypeList: _fuelTypeList,
-                icon: Icon(Icons.local_gas_station),
-                label: '유종',
-                selectedFuelType: widget._list[3]['fuelType']),
-            renderTextFormField(
-              icon: Icon(Icons.price_check),
-              label: '단가',
-              onSaved: (val) {
-                _savedUnitPrice = int.parse(val);
-              },
-              validator: (val) {
-                if (!_isInteger(val)) {
-                  return '숫자만 입력해주세요';
-                }
-                return null;
-              },
-              initialValue: widget._list[0]['unitPrice'].toString(),
-            ),
-            renderTextFormField(
-              icon: Icon(Icons.stacked_bar_chart),
-              label: '수량',
-              onSaved: (val) {
-                _savedQuantity = double.parse(val);
-              },
-              validator: (val) {
-                if (!_isDouble(val)) {
-                  return '숫자만 입력해주세요';
-                }
-                return null;
-              },
-              initialValue: widget._list[1]['quantity'].toString(),
-            ),
-            renderTextFormField(
-              icon: Icon(Icons.attach_money_outlined),
-              label: '총액',
-              onSaved: (val) {
-                _savedTotalPrice = int.parse(val);
-              },
-              validator: (val) {
-                if (!_isInteger(val)) {
-                  return '숫자만 입력해주세요';
-                }
-                return null;
-              },
-              initialValue: widget._list[2]['totalPrice'].toString(),
-            ),
-            renderButton(context),
-          ],
+          ),
         ),
-      ),
+        // Expanded(
+        //   child: Center(child: photo),
+        // ),
+        RaisedButton(
+          child: Text('이전'),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) => MyApp()));
+          },
+        )
+      ],
     );
   }
 }

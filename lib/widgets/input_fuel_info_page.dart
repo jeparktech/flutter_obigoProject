@@ -12,9 +12,9 @@ import 'package:flutter/material.dart';
 
 class InputFuelInfo extends StatefulWidget {
   final File _image;
-  List _list;
+  FuelInformation _fuelInfo;
 
-  InputFuelInfo(this._image, this._list);
+  InputFuelInfo(this._image, this._fuelInfo);
 
   @override
   _InputFuelInfoState createState() => _InputFuelInfoState();
@@ -23,29 +23,6 @@ class InputFuelInfo extends StatefulWidget {
 class _InputFuelInfoState extends State<InputFuelInfo> {
   Widget _body = Loading();
 
-  void _addFuelInfo(
-      {String date,
-      int unitPrice,
-      double quantity,
-      int totalPrice,
-      String fuelType}) async {
-    final newFuelInfo = FuelInformation(
-        date: date,
-        fuelType: fuelType,
-        quantity: quantity,
-        totalPrice: totalPrice,
-        unitPrice: unitPrice);
-
-    var fuelDBHelper = FuelDBHelper();
-    await fuelDBHelper.insertFuelInfo(newFuelInfo);
-
-    // DB에 정보가 잘 들어갔는지 확인
-    List<FuelInformation> fuelInfoList = await fuelDBHelper.fuelInfos();
-    for (int i = 0; i < fuelInfoList.length; i++) {
-      print('Fuel Information #${i + 1}-----------------${fuelInfoList[i]}\n');
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -53,9 +30,9 @@ class _InputFuelInfoState extends State<InputFuelInfo> {
   }
 
   Widget _getFuelInfoList() {
-    ReceiptRecognize(widget._image).detectFuelInfo().then((list) {
-      widget._list = list;
-      if (widget._list != null) {
+    ReceiptRecognize(widget._image).detectFuelInfo().then((fuelInfo) {
+      widget._fuelInfo = fuelInfo;
+      if (widget._fuelInfo != null) {
         setState(() {
           _body = _fuelInfoPage();
         });
@@ -64,25 +41,7 @@ class _InputFuelInfoState extends State<InputFuelInfo> {
   }
 
   Widget _fuelInfoPage() {
-    return ListView(
-      shrinkWrap: true,
-      padding: EdgeInsets.all(15),
-      children: [
-        Container(
-          child: EditFuelInfo(_addFuelInfo, widget._list),
-        ),
-        // Expanded(
-        //   child: Center(child: photo),
-        // ),
-        RaisedButton(
-          child: Text('이전'),
-          onPressed: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-        )
-      ],
-    );
+    return EditFuelInfo(widget._fuelInfo);
   }
 
   @override

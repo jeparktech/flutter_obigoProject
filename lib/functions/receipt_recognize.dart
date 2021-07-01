@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 
+import '../models/fuelInfo.dart';
 import 'package:http/http.dart' as http;
 
 class ReceiptRecognize {
@@ -8,21 +9,20 @@ class ReceiptRecognize {
 
   ReceiptRecognize(this._image);
 
-  Future<List<Map<String, dynamic>>> detectFuelInfo() async {
+  Future<FuelInformation> detectFuelInfo() async {
     String str = await visionAPICall();
 
     List<num> _numInfoList = _detectNumInfo(str);
 
-    var fuelInfo = [
-      {"unitPrice": _numInfoList[0]},
-      {"quantity": _numInfoList[1]},
-      {"totalPrice": _numInfoList[2]},
-      {"fuelType": _detectFuelType(str)},
-      {"date": _detectDate(str)}
-    ];
+    var fuelInfo = FuelInformation(
+        date: _detectDate(str),
+        fuelType: _detectFuelType(str),
+        unitPrice: _numInfoList[0],
+        quantity: _numInfoList[1],
+        totalPrice: _numInfoList[2]);
 
     print(
-        '********인식한 정보********\n날짜: ${fuelInfo[4]['date']}, 유종: ${fuelInfo[3]['fuelType']}, 단가: ${fuelInfo[0]['unitPrice']}, 수량: ${fuelInfo[1]['quantity']}, 총액: ${fuelInfo[2]['totalPrice']}');
+        '********인식한 정보********\n날짜: ${fuelInfo.date}, 유종: ${fuelInfo.fuelType}, 단가: ${fuelInfo.unitPrice}, 수량: ${fuelInfo.quantity}, 총액: ${fuelInfo.totalPrice}');
 
     return fuelInfo;
   }

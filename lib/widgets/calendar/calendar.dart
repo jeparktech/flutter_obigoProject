@@ -1,12 +1,11 @@
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
+import '../edit_fuel_info_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/fuelInfo.dart';
 import '../../dataBase/fuelDBHelper.dart';
-import '../../main.dart';
 
 class Calendar extends StatefulWidget {
   LinkedHashMap<DateTime, List<FuelInformation>> _events;
@@ -48,11 +47,11 @@ class _CalendarState extends State<Calendar> {
                     child: Text("Edit"),
                   ),
                   onTap: () {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //   builder: (_) {
-                    //     return InputFuelInfo(list);
-                    //   },
-                    // ));
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) {
+                        return EditFuelInfoPage(fuelInfo);
+                      },
+                    ));
                   }),
               ListTile(
                   title: Center(
@@ -60,14 +59,11 @@ class _CalendarState extends State<Calendar> {
                   ),
                   onTap: () {
                     setState(() {
-                      fuelList.remove(fuelInfo); //list에서 삭제
-                      FuelDBHelper().deleteFuelInfo(fuelInfo.date); //DB에서 삭제
+                      fuelList.remove(fuelInfo); //fuelInfo list에서 삭제
+                      FuelDBHelper()
+                          .deleteFuelInfo(fuelInfo.date); //fuelInfo DB에서 삭제
                     });
                     Navigator.pop(context);
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (BuildContext context) => MyApp()));
                   }),
             ],
           ),
