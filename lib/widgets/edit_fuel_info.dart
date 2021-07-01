@@ -119,6 +119,7 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
             '********저장된 정보********\n날짜: $_savedDate, 유종: $_savedFuelType, 단가: $_savedUnitPrice, 수량: $_savedQuantity, 총액: $_savedTotalPrice',
           );
         }
+        setState(() {});
       },
       child: Text('저장'),
     );

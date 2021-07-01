@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_obigoproject/widgets/input_fuel_info_page.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 
@@ -31,7 +32,7 @@ class _CalendarState extends State<Calendar> {
     return widget._events[day] ?? [];
   }
 
-  openBottomSheet(BuildContext context) {
+  openBottomSheet(BuildContext context, List<FuelInformation> list) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -44,7 +45,13 @@ class _CalendarState extends State<Calendar> {
                   title: Center(
                     child: Text("Edit"),
                   ),
-                  onTap: () {}),
+                  onTap: () {
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //   builder: (_) {
+                    //     return InputFuelInfo(list);
+                    //   },
+                    // ));
+                  }),
               ListTile(
                   title: Center(
                     child: Text("Delete"),
@@ -137,7 +144,7 @@ class _CalendarState extends State<Calendar> {
                       trailing: IconButton(
                         icon: Icon(Icons.more_vert),
                         onPressed: () {
-                          openBottomSheet(context);
+                          openBottomSheet(context, value);
                         },
                       ),
                     ),
