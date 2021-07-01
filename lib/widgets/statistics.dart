@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Statistics  extends StatefulWidget {
+class Statistics extends StatefulWidget {
   @override
   _StatisticsState createState() => _StatisticsState();
 }

@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_obigoproject/widgets/calendar/calendar_loader.dart';
 
-class EditFuelInfo extends StatelessWidget {
+import '../main.dart';
+import '../widgets/calendar/calendar.dart';
+
+class EditFuelInfo extends StatefulWidget {
+  final List _list;
+  final Function _addFuelInfo;
+
+  EditFuelInfo(this._addFuelInfo, this._list);
+
+  @override
+  _EditFuelInfoState createState() => _EditFuelInfoState();
+}
+
+class _EditFuelInfoState extends State<EditFuelInfo> {
   String _savedDate;
   String _savedFuelType;
   int _savedUnitPrice;
   double _savedQuantity;
   int _savedTotalPrice;
-  final List _list;
-  final formKey = GlobalKey<FormState>();
-  final Function _addFuelInfo;
 
-  EditFuelInfo(this._addFuelInfo, this._list);
+  final _fuelTypeList = ['휘발유', '경유', '고급휘발유'];
+  final formKey = GlobalKey<FormState>();
+
+  int selectedIdx = 0;
 
   void _submitData() {
-    _addFuelInfo(
+    widget._addFuelInfo(
       date: _savedDate,
       fuelType: _savedFuelType,
       unitPrice: _savedUnitPrice,
@@ -52,7 +66,44 @@ class EditFuelInfo extends StatelessWidget {
           validator: validator,
           controller: TextEditingController(text: initialValue),
         ),
-        Container(height: 5),
+        SizedBox(height: 5),
+      ],
+    );
+  }
+
+  renderDropDownButtonForFuelType(
+      {@required String label,
+      @required List<String> fuelTypeList,
+      @required Icon icon,
+      @required String selectedFuelType}) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            icon,
+            SizedBox(width: 10),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        DropdownButton(
+          value: selectedFuelType,
+          items: fuelTypeList.map((value) {
+            return DropdownMenuItem(value: value, child: Text(value));
+          }).toList(),
+          onChanged: (value) {
+            setState(() {
+              _savedFuelType = value;
+              widget._list[3]['fuelType'] = value;
+            });
+          },
+        ),
+        SizedBox(height: 5),
       ],
     );
   }
@@ -71,7 +122,13 @@ class EditFuelInfo extends StatelessWidget {
           print(
             '********저장된 정보********\n날짜: $_savedDate, 유종: $_savedFuelType, 단가: $_savedUnitPrice, 수량: $_savedQuantity, 총액: $_savedTotalPrice',
           );
+          
         }
+        setState(() {
+          
+        });
+        Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => MyApp()));
+
       },
       child: Text('저장'),
     );
@@ -114,22 +171,13 @@ class EditFuelInfo extends StatelessWidget {
                 }
                 return null;
               },
-              initialValue: _list[4]['date'],
+              initialValue: widget._list[4]['date'],
             ),
-            renderTextFormField(
-              icon: Icon(Icons.local_gas_station),
-              label: '유종',
-              onSaved: (val) {
-                _savedFuelType = val;
-              },
-              validator: (val) {
-                if (!RegExp(r'(경유|휘발유|고급휘발유)').hasMatch(val)) {
-                  return '정확한 유종을 입력해주세요';
-                }
-                return null;
-              },
-              initialValue: _list[3]['fuelType'].toString(),
-            ),
+            renderDropDownButtonForFuelType(
+                fuelTypeList: _fuelTypeList,
+                icon: Icon(Icons.local_gas_station),
+                label: '유종',
+                selectedFuelType: widget._list[3]['fuelType']),
             renderTextFormField(
               icon: Icon(Icons.price_check),
               label: '단가',
@@ -142,7 +190,7 @@ class EditFuelInfo extends StatelessWidget {
                 }
                 return null;
               },
-              initialValue: _list[0]['unitPrice'].toString(),
+              initialValue: widget._list[0]['unitPrice'].toString(),
             ),
             renderTextFormField(
               icon: Icon(Icons.stacked_bar_chart),
@@ -156,7 +204,7 @@ class EditFuelInfo extends StatelessWidget {
                 }
                 return null;
               },
-              initialValue: _list[1]['quantity'].toString(),
+              initialValue: widget._list[1]['quantity'].toString(),
             ),
             renderTextFormField(
               icon: Icon(Icons.attach_money_outlined),
@@ -170,7 +218,7 @@ class EditFuelInfo extends StatelessWidget {
                 }
                 return null;
               },
-              initialValue: _list[2]['totalPrice'].toString(),
+              initialValue: widget._list[2]['totalPrice'].toString(),
             ),
             renderButton(context),
           ],
