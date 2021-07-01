@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_obigoproject/widgets/calendar/calendar_loader.dart';
+import 'package:flutter_obigoproject/widgets/statistics.dart';
 import './widgets/new_Image.dart';
-import './widgets/calendar.dart';
+import './dataBase/fuelDBHelper.dart';
 
 void main() async {
-  // DB 테스트
-  // var fuelDBHelper = FuelDBHelper();
+  //var fuelDBHelper = FuelDBHelper();
 
   // var fuel1 = FuelInformation(
   //     address: "인천광역시 연수구 인천타워대로 253-25",
@@ -78,7 +79,13 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: true,
         leading: IconButton(
-            icon: Icon(Icons.assessment_outlined), onPressed: () => {}), //통계버튼
+            icon: Icon(Icons.assessment_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Statistics()),
+              );
+            }), //통계버튼
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -122,7 +129,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _widgetOptions = [
-    Calendar(),
+    CalendarLoader(),
     Text(
       'Category',
       style: TextStyle(fontSize: 30),

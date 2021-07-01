@@ -1,46 +1,34 @@
 import 'dart:collection';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_obigoproject/dataBase/fuelDBHelper.dart';
+
 import 'package:table_calendar/table_calendar.dart';
 
-import '../models/fuelInfo.dart';
+import '../../models/fuelInfo.dart';
 
 class Calendar extends StatefulWidget {
+  LinkedHashMap<DateTime, List<FuelInformation>> _events;
+
+  Calendar(this._events);
   @override
   _CalendarState createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
-  LinkedHashMap<DateTime, List<FuelInformation>> _events = getEvents();
   ValueNotifier<List<FuelInformation>> _selectedEvents;
 
   CalendarFormat format = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
-  // void test(List<FuelInformation> list) {
-  //   for (int i = 0; i < _events.length; i++) {
-  //     _selectedDay = DateTime.parse(list[i].date);
-  //     if (_selectedEvents[_selectedDay] != null) {
-  //       _selectedEvents[_selectedDay].add(list[i]);
-  //     } else {
-  //       _selectedEvents[_selectedDay] = [list[i]];
-  //     }
-  //   }
-  // }
-
   void initState() {
     super.initState();
-    if (_events == null) {
-      print('event is null');
-    }
-
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay));
   }
 
   List<FuelInformation> _getEventsForDay(DateTime day) {
-    return _events[day] ?? [];
+    return widget._events[day] ?? [];
   }
 
   openBottomSheet(BuildContext context) {
@@ -162,71 +150,4 @@ class _CalendarState extends State<Calendar> {
       ]),
     );
   }
-}
-
-LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
-  //var fuelDBHelper = FuelDBHelper();
-  //var fuelInfoList =  fuelDBHelper.fuelInfos();
-
-  var fuelInfoList = [
-    FuelInformation(
-        date: '2021-06-29',
-        fuelType: '휘발유',
-        quantity: 59.65,
-        totalPrice: 53000,
-        unitPrice: 1350),
-    FuelInformation(
-        date: '2021-06-15',
-        fuelType: '휘발유',
-        quantity: 59.65,
-        totalPrice: 89000,
-        unitPrice: 1350),
-    FuelInformation(
-        date: '2021-06-29',
-        fuelType: '경유',
-        quantity: 59.65,
-        totalPrice: 36000,
-        unitPrice: 1350),
-    FuelInformation(
-        date: '2021-06-07',
-        fuelType: '경유',
-        quantity: 59.65,
-        totalPrice: 36000,
-        unitPrice: 1350)
-  ];
-  final Map<DateTime, List<FuelInformation>> _kEventSource = Map.fromIterable(
-      fuelInfoList,
-      key: (item) => DateTime.parse(item.date),
-      value: (item) =>
-          getFuelInfoFromDay(DateTime.parse(item.date), fuelInfoList));
-
-  final kEvents = LinkedHashMap<DateTime, List<FuelInformation>>(
-    equals: isSameDay,
-    hashCode: getHashCode,
-  )..addAll(_kEventSource);
-
-  return kEvents;
-}
-
-List<FuelInformation> getFuelInfoFromDay(
-    DateTime day, List<FuelInformation> list) {
-  final listFromDay = list.where((val) {
-    return DateTime.parse(val.date) == day;
-  }).toList();
-  return listFromDay;
-}
-
-LinkedHashMap<DateTime, List<FuelInformation>> getEvents() {
-  // LinkedHashMap<DateTime, List<FuelInformation>> events;
-  // _eventsGenerated().then((val) {
-  //   events = val;
-  // });
-
-  // print('events: $events');
-
-  return _eventsGenerated();
-}
-
-int getHashCode(DateTime key) {
-  return key.day * 1000000 + key.month * 10000 + key.year;
 }
