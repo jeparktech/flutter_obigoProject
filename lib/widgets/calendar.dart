@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_obigoproject/dataBase/fuelDBHelper.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../models/fuelInfo.dart';
 
 
@@ -44,12 +43,15 @@ class _CalendarState extends State<Calendar> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-              title: Center(child:Text("Edit") ,) ,
+              leading: Icon(Icons.edit_outlined ),
+              title: Text("Edit"),
               onTap: () {
           }),
           ListTile(
-              title:Center(child:Text("Delete") ,) ,
+              leading: Icon(Icons.restore_from_trash_sharp ),
+              title: Text("Delete"),
               onTap: () {  
+                
            }),
         ],
       ),
@@ -155,9 +157,10 @@ class _CalendarState extends State<Calendar> {
 
 }
 
-LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
+LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated()  {
   //var fuelDBHelper = FuelDBHelper();
-  //var fuelInfoList =  fuelDBHelper.fuelInfos();
+  //var fuelInfoList =   fuelDBHelper.fuelInfos();
+  //print('test');
 
   var fuelInfoList = [
     FuelInformation(
@@ -189,6 +192,7 @@ LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
   ];
 
   print(fuelInfoList);
+
   final Map<DateTime, List<FuelInformation>> _kEventSource = Map.fromIterable(
       fuelInfoList,
       key: (item) => DateTime.parse(item.date),
@@ -204,22 +208,26 @@ LinkedHashMap<DateTime, List<FuelInformation>> _eventsGenerated() {
 }
 
 List<FuelInformation> getFuelInfoFromDay(
-    DateTime day, List<FuelInformation> list) {
-  final listFromDay = list.where((val) {
-    return DateTime.parse(val.date) == day;
-  }).toList();
+  DateTime day, List<FuelInformation> list) {
+      final listFromDay = list.where((val) {
+        return DateTime.parse(val.date) == day;
+      }).toList();
   return listFromDay;
 }
 
 LinkedHashMap<DateTime, List<FuelInformation>> getEvents() {
-  // LinkedHashMap<DateTime, List<FuelInformation>> events;
-  // _eventsGenerated().then((val) {
-  //   events = val;
-  // });
-
-  // print('events: $events');
-
-  return _eventsGenerated();
+   LinkedHashMap<DateTime, List<FuelInformation>> events;
+  
+  /* _eventsGenerated().then((val) {
+     events = val;
+     print('events: $events');
+     print('hi');
+   });*/
+ 
+   
+  //print('hello');
+   return _eventsGenerated();
+  
 }
 
 int getHashCode(DateTime key) {

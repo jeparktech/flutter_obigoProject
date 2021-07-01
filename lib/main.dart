@@ -5,7 +5,7 @@ import './models/fuelInfo.dart';
 import './widgets/new_Image.dart';
 import './widgets/calendar.dart';
 
-void main() async {
+void main() {
   // DB 테스트
   // var fuelDBHelper = FuelDBHelper();
 
