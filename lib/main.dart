@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_obigoproject/widgets/calendar/calendar_loader.dart';
-import 'package:flutter_obigoproject/widgets/statistics.dart';
+import 'package:flutter_obigoproject/widgets/statistics/statistics.dart';
 import './widgets/new_Image.dart';
 import './dataBase/fuelDBHelper.dart';
 
