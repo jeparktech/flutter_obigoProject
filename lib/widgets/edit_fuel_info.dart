@@ -43,6 +43,11 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
     var fuelDBHelper = FuelDBHelper();
     await fuelDBHelper.insertFuelInfo(newFuelInfo);
 
+    if (newFuelInfo.date != widget._fuelInfo.date &&
+        await fuelDBHelper.hasFuelInfo(widget._fuelInfo.date)) {
+      fuelDBHelper.deleteFuelInfo(widget._fuelInfo.date);
+    }
+
     // DB에 정보가 잘 들어갔는지 확인
     List<FuelInformation> fuelInfoList = await fuelDBHelper.fuelInfos();
     for (int i = 0; i < fuelInfoList.length; i++) {

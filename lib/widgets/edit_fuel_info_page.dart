@@ -3,7 +3,7 @@ import '../widgets/edit_fuel_info.dart';
 import '../models/fuelInfo.dart';
 
 class EditFuelInfoPage extends StatelessWidget {
-  FuelInformation fuelInfo;
+  final FuelInformation fuelInfo;
 
   EditFuelInfoPage(this.fuelInfo);
 
