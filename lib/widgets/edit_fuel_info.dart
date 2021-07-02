@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/fuelInfo.dart';
-import '../widgets/calendar/calendar_loader.dart';
-
-import '../pages/homepage.dart';
-import '../widgets/calendar/calendar.dart';
 import '../dataBase/fuelDBHelper.dart';
 
 class EditFuelInfo extends StatefulWidget {
@@ -154,8 +150,9 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
           print(
             '********저장된 정보********\n날짜: $_savedDate, 유종: $_savedFuelType, 단가: $_savedUnitPrice, 수량: $_savedQuantity, 총액: $_savedTotalPrice',
           );
+
+          Navigator.of(context).pushNamed('/');
         }
-        Navigator.of(context).pushNamed('/');
       },
       child: Text('저장'),
     );

@@ -1,11 +1,10 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import '../../pages/edit_fuel_info_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/fuelInfo.dart';
-import '../../dataBase/fuelDBHelper.dart';
+import '../transaction_list.dart';
 
 class Calendar extends StatefulWidget {
   LinkedHashMap<DateTime, List<FuelInformation>> _events;
@@ -30,43 +29,6 @@ class _CalendarState extends State<Calendar> {
 
   List<FuelInformation> _getEventsForDay(DateTime day) {
     return widget._events[day] ?? [];
-  }
-
-  openBottomSheet(BuildContext context, List<FuelInformation> fuelList,
-      FuelInformation fuelInfo) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                  title: Center(
-                    child: Text("Edit"),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(EditFuelInfoPage.routeName,
-                        arguments: fuelInfo);
-                  }),
-              ListTile(
-                  title: Center(
-                    child: Text("Delete"),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      fuelList.remove(fuelInfo); //fuelInfo list에서 삭제
-                      FuelDBHelper()
-                          .deleteFuelInfo(fuelInfo.date); //fuelInfo DB에서 삭제
-                    });
-                    Navigator.pop(context);
-                  }),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -130,30 +92,7 @@ class _CalendarState extends State<Calendar> {
               return ListView.builder(
                 itemCount: value.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 4.0,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: ListTile(
-                      leading: Icon(Icons.local_gas_station_rounded),
-                      onTap: () {
-                        print('${value[index]}');
-                      },
-                      title: Text('${value[index].totalPrice} 원'),
-                      subtitle: Text('${value[index].date}'),
-                      trailing: IconButton(
-                        icon: Icon(Icons.more_vert),
-                        onPressed: () {
-                          openBottomSheet(context, value, value[index]);
-                        },
-                      ),
-                    ),
-                  );
+                  return TransactionList(txList: value, tx: value[index]);
                 },
               );
             },
