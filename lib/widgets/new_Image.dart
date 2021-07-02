@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/fuelInfo.dart';
 import 'package:image_picker/image_picker.dart';
 
-import './input_fuel_info_page.dart';
+import '../pages/input_fuel_info_page.dart';
 
 class NewImage extends StatefulWidget {
   @override
@@ -16,11 +16,8 @@ class _NewImageState extends State<NewImage> {
   FuelInformation _fuelInfo;
 
   void navigateToNextPage(BuildContext ctx) {
-    Navigator.of(ctx).push(MaterialPageRoute(
-      builder: (_) {
-        return InputFuelInfo(_image, _fuelInfo);
-      },
-    ));
+    Navigator.of(ctx).pushNamed(InputFuelInfoPage.routeName,
+        arguments: {'image': _image, 'fuelInfo': _fuelInfo});
   }
 
   void getPhoto(ImageSource source, BuildContext ctx) async {

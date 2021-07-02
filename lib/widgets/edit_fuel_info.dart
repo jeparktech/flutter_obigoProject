@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/fuelInfo.dart';
 import '../widgets/calendar/calendar_loader.dart';
 
-import '../main.dart';
+import '../pages/homepage.dart';
 import '../widgets/calendar/calendar.dart';
 import '../dataBase/fuelDBHelper.dart';
 
@@ -149,18 +149,13 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
       onPressed: () async {
         if (this.formKey.currentState.validate()) {
           this.formKey.currentState.save();
-
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('저장 완료!')));
-
           _submitData(); // DB에 데이터 저장
 
           print(
             '********저장된 정보********\n날짜: $_savedDate, 유종: $_savedFuelType, 단가: $_savedUnitPrice, 수량: $_savedQuantity, 총액: $_savedTotalPrice',
           );
         }
-        Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext context) => MyApp()));
+        Navigator.of(context).pushNamed('/');
       },
       child: Text('저장'),
     );
@@ -276,8 +271,7 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
         RaisedButton(
           child: Text('이전'),
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) => MyApp()));
+            Navigator.of(context).pushNamed('/');
           },
         )
       ],

@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import '../edit_fuel_info_page.dart';
+import '../../pages/edit_fuel_info_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/fuelInfo.dart';
@@ -47,11 +47,8 @@ class _CalendarState extends State<Calendar> {
                     child: Text("Edit"),
                   ),
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) {
-                        return EditFuelInfoPage(fuelInfo);
-                      },
-                    ));
+                    Navigator.of(context).pushNamed(EditFuelInfoPage.routeName,
+                        arguments: fuelInfo);
                   }),
               ListTile(
                   title: Center(
