@@ -77,4 +77,15 @@ class FuelDBHelper {
       whereArgs: [date],
     );
   }
+
+  Future<bool> hasFuelInfo(String date) async {
+    final List<FuelInformation> fuelList = await fuelInfos();
+
+    for (FuelInformation fuelInfo in fuelList) {
+      if (date == fuelInfo.date) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
