@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/calendar/calendar_loader.dart';
-import '../widgets/statistics.dart';
+import '../widgets/statistics/statistics.dart';
 import '../widgets/new_Image.dart';
 
 class HomePage extends StatefulWidget {
