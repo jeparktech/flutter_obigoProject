@@ -55,6 +55,10 @@ class _ChartState extends State<Chart> {
         body: Column(
           children: <Widget>[
             Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 130.0,
+                vertical: 10.0,
+              ),
               width: double.infinity,
               color: primaryColor,
               child: FlatButton(
@@ -92,6 +96,7 @@ class _ChartState extends State<Chart> {
                 // ),
               ),
             ),
+
             //SizedBox(width: 60),
             // Container(
             //   width: 100,
@@ -129,28 +134,48 @@ class _ChartState extends State<Chart> {
                 ],
               ),
             ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: primaryColor,
-            child: Padding(padding: EdgeInsets.all(12),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Transactions',
-                   hintStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
+            Container(
+                width: double.infinity,
+                height: 50,
+                color: primaryColor,
+                child: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Transactions',
+                            hintStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Transactions',
+                            hintStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-
-                    ),
-                  ),
-            )
-          
-          ),
-
+                )),
           ],
         ),
       ),
