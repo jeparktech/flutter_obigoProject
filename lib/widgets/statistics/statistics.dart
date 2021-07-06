@@ -15,7 +15,7 @@ class _StatisticsState extends State<Statistics> {
    List<GDPData> _chartData;
    TooltipBehavior _tooltipBehavior;
    DateTime dateTime = DateTime.now();
-   DateTime value;
+   String value =  DateFormat('yyyy/MM').format( DateTime.now());
 
   void initState() {
     _chartData = getChartData();
@@ -28,32 +28,7 @@ class _StatisticsState extends State<Statistics> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Stack(
-            children: <Widget> [
-              Center(
-                child: Container(
-                    color: Colors.transparent,
-                    width: 100,
-                    height:30,
-                    child: OutlinedButton(
-                      onPressed: () {
-                      Utils.showSheet(context,
-                      child: buildDatePicker(),
-                      onClicked: () {
-                         final value = DateFormat('yyyy/MM').format(dateTime);
-                        // Utils.showSnackBar(context, 'Selected "$value"');
-                         Navigator.pop(context);},
-                      );
-                    },
-                      style: ButtonStyle(
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
-                      ),
-                      child: const Text('hello'),
-                    ),
-                  ),
-              )
-            ],
-          ),
+          title: new Text('Statistics page'),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
@@ -62,9 +37,41 @@ class _StatisticsState extends State<Statistics> {
         ),
         body: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(width: 150),
+                OutlinedButton(
+                  onPressed: () {
+                  Utils.showSheet(context,
+                  child: buildDatePicker(),
+                  onClicked: () {
+                    value = DateFormat('yyyy/MM').format(dateTime);
+                    // Utils.showSnackBar(context, 'Selected "$value"');
+                    Navigator.pop(context);},
+                  );},
+                  style: ButtonStyle(
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
+                  ),
+                  child:  Text(value),
+                ),
+                SizedBox(width: 60),
+                Container(
+                  width: 100,
+                  height: 80,
+                  child: Column(children: [
+                    Text("Expense",style: TextStyle(fontSize: 16, color: Colors.black),textAlign: TextAlign.right,),
+                    Text("₩",style: TextStyle(fontSize: 16, color: Colors.black),textAlign: TextAlign.center,),
+                  ],),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent)
+                  ),
+                  
+                ),
+                
+              ],
+            ),
             SfCircularChart(
-              title: 
-                ChartTitle(text: 'chart test'),
               legend: 
                 Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
               tooltipBehavior: _tooltipBehavior,
@@ -78,7 +85,8 @@ class _StatisticsState extends State<Statistics> {
             ],
             ),
           ],
-        ))
+        ),
+        ),
     );
   }
   

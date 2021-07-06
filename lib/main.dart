@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-<<<<<<< HEAD
 import 'package:flutter_obigoproject/widgets/calendar/calendar_loader.dart';
 import 'package:flutter_obigoproject/widgets/statistics/statistics.dart';
 import './widgets/new_Image.dart';
 import './dataBase/fuelDBHelper.dart';
-=======
 import '../pages/edit_fuel_info_page.dart';
 import '../pages/input_fuel_info_page.dart';
 import '../pages/homepage.dart';
->>>>>>> a010d45cc3a9988b0a9c5cd50035791e6a3d8fba
 
 void main() async {
   //var fuelDBHelper = FuelDBHelper();
