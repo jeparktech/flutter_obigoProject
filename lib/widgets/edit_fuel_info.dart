@@ -4,21 +4,25 @@ import '../dataBase/fuelDBHelper.dart';
 
 class EditFuelInfo extends StatefulWidget {
   final FuelInformation fuelInfo;
-  List<FuelInformation> fuelList;
-  bool isEditMode = false;
+  List<FuelInformation>? fuelList;
+  bool? isEditMode = false;
 
-  EditFuelInfo({this.fuelInfo, this.fuelList, this.isEditMode});
+  EditFuelInfo({
+    required this.fuelInfo,
+    this.fuelList,
+    this.isEditMode,
+  });
 
   @override
   _EditFuelInfoState createState() => _EditFuelInfoState();
 }
 
 class _EditFuelInfoState extends State<EditFuelInfo> {
-  String _savedDate;
-  String _savedFuelType;
-  int _savedUnitPrice;
-  double _savedQuantity;
-  int _savedTotalPrice;
+  String? _savedDate;
+  String? _savedFuelType;
+  int? _savedUnitPrice;
+  double? _savedQuantity;
+  int? _savedTotalPrice;
 
   final _fuelTypeList = ['휘발유', '경유', '고급휘발유'];
   final formKey = GlobalKey<FormState>();
@@ -44,18 +48,19 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
   void updateList(FuelInformation newFuelInfo, FuelDBHelper fuelDBHelper) {
     if (newFuelInfo.date != widget.fuelInfo.date) {
       fuelDBHelper.deleteFuelInfo(widget.fuelInfo.date);
-      widget.fuelList.remove(widget.fuelInfo);
+      widget.fuelList!.remove(widget.fuelInfo);
     }
   }
 
   void _submitData() {
     var fuelDBHelper = FuelDBHelper();
     final newFuelInfo = FuelInformation(
-        date: _savedDate,
-        fuelType: _savedFuelType,
-        unitPrice: _savedUnitPrice,
-        quantity: _savedQuantity,
-        totalPrice: _savedTotalPrice);
+      date: _savedDate!,
+      fuelType: _savedFuelType!,
+      unitPrice: _savedUnitPrice!,
+      quantity: _savedQuantity!,
+      totalPrice: _savedTotalPrice!,
+    );
 
     _addFuelInfo(newFuelInfo, fuelDBHelper);
 
@@ -67,15 +72,12 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
   }
 
   renderTextFormField({
-    @required String label,
-    @required FormFieldSetter onSaved,
-    @required FormFieldValidator validator,
-    @required Icon icon,
-    @required String initialValue,
+    required String label,
+    required FormFieldSetter onSaved,
+    required FormFieldValidator validator,
+    required Icon icon,
+    required String? initialValue,
   }) {
-    assert(onSaved != null);
-    assert(validator != null);
-
     return Column(
       children: [
         Row(
@@ -102,10 +104,10 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
   }
 
   renderDropDownButtonForFuelType(
-      {@required String label,
-      @required List<String> fuelTypeList,
-      @required Icon icon,
-      @required String selectedFuelType}) {
+      {required String label,
+      required List<String> fuelTypeList,
+      required Icon icon,
+      required String selectedFuelType}) {
     _savedFuelType = selectedFuelType;
     return Column(
       children: [
@@ -128,15 +130,15 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
             return DropdownMenuItem(value: value, child: Text(value));
           }).toList(),
           onTap: () {
-            if (this.formKey.currentState.validate()) {
-              this.formKey.currentState.save();
+            if (this.formKey.currentState!.validate()) {
+              this.formKey.currentState!.save();
             }
             print('button is tapped');
           },
-          onChanged: (value) {
+          onChanged: (String? value) {
             setState(() {
               _savedFuelType = value;
-              widget.fuelInfo.fuelType = value;
+              widget.fuelInfo.fuelType = value!;
             });
           },
         ),
@@ -148,8 +150,8 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
   renderButton(BuildContext context) {
     return RaisedButton(
       onPressed: () async {
-        if (this.formKey.currentState.validate()) {
-          this.formKey.currentState.save();
+        if (this.formKey.currentState!.validate()) {
+          this.formKey.currentState!.save();
           _submitData(); // DB에 데이터 저장
 
           print(

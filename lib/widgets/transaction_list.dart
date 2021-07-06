@@ -10,7 +10,10 @@ class TransactionList extends StatefulWidget {
   final List<dynamic> txList;
   final tx;
 
-  TransactionList({this.txList, this.tx});
+  TransactionList({
+    required this.txList,
+    required this.tx,
+  });
 
   @override
   _TransactionListState createState() => _TransactionListState();
@@ -142,7 +145,9 @@ class _TransactionListState extends State<TransactionList> {
                                 ),
                                 onTap: () {
                                   openBottomSheet(
-                                      context, widget.txList, widget.tx);
+                                      context,
+                                      widget.txList as List<FuelInformation>,
+                                      widget.tx);
                                 },
                               ),
                             ),

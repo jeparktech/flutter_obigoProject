@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 import 'package:flutter/widgets.dart';
 
 class FuelDBHelper {
-  Future<Database> fuelDB;
+  Future<Database>? fuelDB;
 
   FuelDBHelper() {
     fuelDB = openFuelInfoDB();
@@ -24,14 +24,14 @@ class FuelDBHelper {
       version: 1,
     );
 
-    return fuelDB;
+    return fuelDB!;
   }
 
   //Insert fuelInfo into the database
   Future<void> insertFuelInfo(FuelInformation fuelInfo) async {
     final db = await fuelDB;
 
-    await db.insert(
+    await db!.insert(
       'fuelInfos',
       fuelInfo.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -42,7 +42,7 @@ class FuelDBHelper {
   Future<List<FuelInformation>> fuelInfos() async {
     final db = await fuelDB;
 
-    final List<Map<String, dynamic>> maps = await db.query('fuelInfos');
+    final List<Map<String, dynamic>> maps = await db!.query('fuelInfos');
 
     return List.generate(maps.length, (i) {
       return FuelInformation(
@@ -59,7 +59,7 @@ class FuelDBHelper {
   Future<void> updateFuelInfo(FuelInformation fuelInfo) async {
     final db = await fuelDB;
 
-    await db.update(
+    await db!.update(
       'fuelInfos',
       fuelInfo.toMap(),
       where: 'date = ?',
@@ -71,7 +71,7 @@ class FuelDBHelper {
   Future<void> deleteFuelInfo(String date) async {
     final db = await fuelDB;
 
-    await db.delete(
+    await db!.delete(
       'fuelInfos',
       where: 'date = ?',
       whereArgs: [date],
@@ -82,7 +82,7 @@ class FuelDBHelper {
     final db = await fuelDB;
 
     var res =
-        await db.rawQuery('SELECT * FROM fuelInfos WHERE date = ?', [date]);
+        await db!.rawQuery('SELECT * FROM fuelInfos WHERE date = ?', [date]);
 
     if (res == null) {
       return false;

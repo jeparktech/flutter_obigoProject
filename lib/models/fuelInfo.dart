@@ -6,11 +6,11 @@ class FuelInformation {
   int totalPrice;
 
   FuelInformation(
-      {this.date,
-      this.fuelType,
-      this.unitPrice,
-      this.quantity,
-      this.totalPrice});
+      {required this.date,
+      required this.fuelType,
+      required this.unitPrice,
+      required this.quantity,
+      required this.totalPrice});
 
   Map<String, dynamic> toMap() {
     return {

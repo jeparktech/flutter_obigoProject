@@ -17,9 +17,9 @@ class ReceiptRecognize {
     var fuelInfo = FuelInformation(
         date: _detectDate(str),
         fuelType: _detectFuelType(str),
-        unitPrice: _numInfoList[0],
-        quantity: _numInfoList[1],
-        totalPrice: _numInfoList[2]);
+        unitPrice: _numInfoList[0] as int,
+        quantity: _numInfoList[1] as double,
+        totalPrice: _numInfoList[2] as int);
 
     print(
         '********인식한 정보********\n날짜: ${fuelInfo.date}, 유종: ${fuelInfo.fuelType}, 단가: ${fuelInfo.unitPrice}, 수량: ${fuelInfo.quantity}, 총액: ${fuelInfo.totalPrice}');
@@ -38,24 +38,25 @@ class ReceiptRecognize {
     var regex = new RegExp(r'([0-9]{1,3},+?[0-9]{3}|[0-9]{1,3}\.+?[0-9]{1,3})');
     var allMatches = regex.allMatches(str);
     for (RegExpMatch m in allMatches) {
-      String match = m[0];
-      String finalMatch = match.replaceAll(',', '');
-      double matchToNum = double.parse(finalMatch);
-      //print(matchToNum);
-      if (matchToNum >= 1000 && matchToNum <= 2000 && !gotFirstUnitPrice) {
-        if (matchToNum == matchToNum.floor()) {
-          unitPrice = matchToNum.floor();
-          gotFirstUnitPrice = true;
+      String? match = m[0];
+      if (match != null) {
+        String finalMatch = match.replaceAll(',', '');
+        double matchToNum = double.parse(finalMatch);
+        //print(matchToNum);
+        if (matchToNum >= 1000 && matchToNum <= 2000 && !gotFirstUnitPrice) {
+          if (matchToNum == matchToNum.floor()) {
+            unitPrice = matchToNum.floor();
+            gotFirstUnitPrice = true;
+          }
+        } else if (matchToNum <= 100 && !gotFirstQuantity) {
+          quantity = matchToNum;
+          gotFirstQuantity = true;
         }
-      } else if (matchToNum <= 100 && !gotFirstQuantity) {
-        quantity = matchToNum;
-        gotFirstQuantity = true;
       }
+      numInfos.add(unitPrice);
+      numInfos.add(quantity);
+      numInfos.add((unitPrice * quantity).floor());
     }
-    numInfos.add(unitPrice);
-    numInfos.add(quantity);
-    numInfos.add((unitPrice * quantity).floor());
-
     return numInfos;
   }
 
@@ -66,7 +67,7 @@ class ReceiptRecognize {
     var regex = new RegExp(r'(경유|휘발유|고급휘발유)');
     var firstMatch = regex.firstMatch(str);
     try {
-      fuelType = firstMatch.input.substring(firstMatch.start, firstMatch.end);
+      fuelType = firstMatch!.input.substring(firstMatch.start, firstMatch.end);
     } catch (_) {
       fuelType = "not detected";
     }
@@ -81,7 +82,7 @@ class ReceiptRecognize {
         '((20){0,1}2[0-9]-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])|(20){0,1}2[0-9]/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01]))');
     var firstMatch = regex.firstMatch(str);
     try {
-      date = firstMatch.input.substring(firstMatch.start, firstMatch.end);
+      date = firstMatch!.input.substring(firstMatch.start, firstMatch.end);
     } catch (_) {
       return date;
     }

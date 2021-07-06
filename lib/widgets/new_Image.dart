@@ -12,8 +12,8 @@ class NewImage extends StatefulWidget {
 }
 
 class _NewImageState extends State<NewImage> {
-  File _image;
-  FuelInformation _fuelInfo;
+  File? _image;
+  FuelInformation? _fuelInfo;
 
   void navigateToNextPage(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(InputFuelInfoPage.routeName,
@@ -22,7 +22,7 @@ class _NewImageState extends State<NewImage> {
 
   void getPhoto(ImageSource source, BuildContext ctx) async {
     final _picker = ImagePicker();
-    PickedFile f = await _picker.getImage(source: source);
+    PickedFile? f = await _picker.getImage(source: source);
 
     setState(() {
       if (f != null) {
