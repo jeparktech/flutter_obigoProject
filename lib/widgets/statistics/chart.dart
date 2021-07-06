@@ -105,26 +105,52 @@ class _ChartState extends State<Chart> {
             //   // ),
             // ),
 
-            SfCircularChart(
-              backgroundColor: primaryColor,
-              //title: ChartTitle(text: 'Half yearly sales analysis'),
-              legend: Legend(
-                  isVisible: true,
-                  overflowMode: LegendItemOverflowMode.wrap,
-                  textStyle: TextStyle(color: Colors.white)),
-              tooltipBehavior: _tooltipBehavior,
-              series: <CircularSeries>[
-                DoughnutSeries<GasData, String>(
-                    dataSource: _chartData,
-                    xValueMapper: (GasData data, _) => data.type,
-                    yValueMapper: (GasData data, _) => data.amount,
-                    dataLabelSettings: DataLabelSettings(
-                      isVisible: true,
-                    ),
-                    enableTooltip: true,
-                    animationDuration: 1000),
-              ],
+            Container(
+              height: 200,
+              width: double.infinity,
+              child: SfCircularChart(
+                backgroundColor: primaryColor,
+                //title: ChartTitle(text: 'Half yearly sales analysis'),
+                legend: Legend(
+                    isVisible: true,
+                    overflowMode: LegendItemOverflowMode.wrap,
+                    textStyle: TextStyle(color: Colors.white)),
+                tooltipBehavior: _tooltipBehavior,
+                series: <CircularSeries>[
+                  DoughnutSeries<GasData, String>(
+                      dataSource: _chartData,
+                      xValueMapper: (GasData data, _) => data.type,
+                      yValueMapper: (GasData data, _) => data.amount,
+                      dataLabelSettings: DataLabelSettings(
+                        isVisible: true,
+                      ),
+                      enableTooltip: true,
+                      animationDuration: 1000),
+                ],
+              ),
             ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: primaryColor,
+            child: Padding(padding: EdgeInsets.all(12),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Transactions',
+                   hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+
+                    ),
+                  ),
+            )
+          
+          ),
+
           ],
         ),
       ),
