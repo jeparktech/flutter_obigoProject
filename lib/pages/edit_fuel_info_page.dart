@@ -7,14 +7,20 @@ class EditFuelInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fuelInfo =
-        ModalRoute.of(context).settings.arguments as FuelInformation;
+    final routeArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final fuelInfo = routeArgs['fuelInfo'];
+    final fuelList = routeArgs['fuelList'];
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Second Page'),
       ),
-      body: EditFuelInfo(fuelInfo),
+      body: EditFuelInfo(
+        fuelInfo: fuelInfo,
+        fuelList: fuelList,
+        isEditMode: true,
+      ),
     );
   }
 }

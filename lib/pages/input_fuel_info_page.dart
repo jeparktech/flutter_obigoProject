@@ -43,8 +43,9 @@ class _InputFuelInfoState extends State<InputFuelInfoPage> {
       appBar: AppBar(
         title: Text('Second Page'),
       ),
-      body:
-          widget._fuelInfo == null ? Loading() : EditFuelInfo(widget._fuelInfo),
+      body: widget._fuelInfo == null
+          ? Loading()
+          : EditFuelInfo(fuelInfo: widget._fuelInfo),
     );
   }
 }

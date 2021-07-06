@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../models/fuelInfo.dart';
 import '../pages/edit_fuel_info_page.dart';
 import '../dataBase/fuelDBHelper.dart';
+import './edit_fuel_info.dart';
 
 class TransactionList extends StatefulWidget {
   final List<dynamic> txList;
@@ -32,7 +33,10 @@ class _TransactionListState extends State<TransactionList> {
                   ),
                   onTap: () {
                     Navigator.of(context).pushNamed(EditFuelInfoPage.routeName,
-                        arguments: fuelInfo);
+                        arguments: {
+                          'fuelInfo': fuelInfo,
+                          'fuelList': fuelList
+                        });
                   }),
               ListTile(
                   title: Center(

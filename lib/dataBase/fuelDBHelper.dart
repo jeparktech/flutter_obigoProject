@@ -79,13 +79,14 @@ class FuelDBHelper {
   }
 
   Future<bool> hasFuelInfo(String date) async {
-    final List<FuelInformation> fuelList = await fuelInfos();
+    final db = await fuelDB;
 
-    for (FuelInformation fuelInfo in fuelList) {
-      if (date == fuelInfo.date) {
-        return true;
-      }
+    var res =
+        await db.rawQuery('SELECT * FROM fuelInfos WHERE date = ?', [date]);
+
+    if (res == null) {
+      return false;
     }
-    return false;
+    return true;
   }
 }

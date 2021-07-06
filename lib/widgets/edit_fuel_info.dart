@@ -3,9 +3,11 @@ import '../models/fuelInfo.dart';
 import '../dataBase/fuelDBHelper.dart';
 
 class EditFuelInfo extends StatefulWidget {
-  final FuelInformation _fuelInfo;
+  final FuelInformation fuelInfo;
+  List<FuelInformation> fuelList;
+  bool isEditMode = false;
 
-  EditFuelInfo(this._fuelInfo);
+  EditFuelInfo({this.fuelInfo, this.fuelList, this.isEditMode});
 
   @override
   _EditFuelInfoState createState() => _EditFuelInfoState();
@@ -24,25 +26,13 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
   int selectedIdx = 0;
 
   void _addFuelInfo(
-      {String date,
-      int unitPrice,
-      double quantity,
-      int totalPrice,
-      String fuelType}) async {
-    final newFuelInfo = FuelInformation(
-        date: date,
-        fuelType: fuelType,
-        quantity: quantity,
-        totalPrice: totalPrice,
-        unitPrice: unitPrice);
-
-    var fuelDBHelper = FuelDBHelper();
+      FuelInformation newFuelInfo, FuelDBHelper fuelDBHelper) async {
     await fuelDBHelper.insertFuelInfo(newFuelInfo);
 
-    if (newFuelInfo.date != widget._fuelInfo.date &&
-        await fuelDBHelper.hasFuelInfo(widget._fuelInfo.date)) {
-      fuelDBHelper.deleteFuelInfo(widget._fuelInfo.date);
-    }
+    // if (newFuelInfo.date != widget.fuelInfo.date &&
+    //     await fuelDBHelper.hasFuelInfo(widget.fuelInfo.date)) {
+    //   fuelDBHelper.deleteFuelInfo(widget.fuelInfo.date);
+    // }
 
     // DB에 정보가 잘 들어갔는지 확인
     List<FuelInformation> fuelInfoList = await fuelDBHelper.fuelInfos();
@@ -51,14 +41,29 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
     }
   }
 
+  void updateList(FuelInformation newFuelInfo, FuelDBHelper fuelDBHelper) {
+    if (newFuelInfo.date != widget.fuelInfo.date) {
+      fuelDBHelper.deleteFuelInfo(widget.fuelInfo.date);
+      widget.fuelList.remove(widget.fuelInfo);
+    }
+  }
+
   void _submitData() {
-    _addFuelInfo(
-      date: _savedDate,
-      fuelType: _savedFuelType,
-      unitPrice: _savedUnitPrice,
-      quantity: _savedQuantity,
-      totalPrice: _savedTotalPrice,
-    );
+    var fuelDBHelper = FuelDBHelper();
+    final newFuelInfo = FuelInformation(
+        date: _savedDate,
+        fuelType: _savedFuelType,
+        unitPrice: _savedUnitPrice,
+        quantity: _savedQuantity,
+        totalPrice: _savedTotalPrice);
+
+    _addFuelInfo(newFuelInfo, fuelDBHelper);
+
+    if (widget.isEditMode == true) {
+      updateList(newFuelInfo, fuelDBHelper);
+
+      widget.isEditMode = false;
+    }
   }
 
   renderTextFormField({
@@ -131,7 +136,7 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
           onChanged: (value) {
             setState(() {
               _savedFuelType = value;
-              widget._fuelInfo.fuelType = value;
+              widget.fuelInfo.fuelType = value;
             });
           },
         ),
@@ -201,13 +206,13 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
                       return null;
                     },
                     initialValue:
-                        _savedDate == null ? widget._fuelInfo.date : _savedDate,
+                        _savedDate == null ? widget.fuelInfo.date : _savedDate,
                   ),
                   renderDropDownButtonForFuelType(
                       fuelTypeList: _fuelTypeList,
                       icon: Icon(Icons.local_gas_station),
                       label: '유종',
-                      selectedFuelType: widget._fuelInfo.fuelType),
+                      selectedFuelType: widget.fuelInfo.fuelType),
                   renderTextFormField(
                     icon: Icon(Icons.price_check),
                     label: '단가',
@@ -221,7 +226,7 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
                       return null;
                     },
                     initialValue: _savedUnitPrice == null
-                        ? widget._fuelInfo.unitPrice.toString()
+                        ? widget.fuelInfo.unitPrice.toString()
                         : _savedUnitPrice.toString(),
                   ),
                   renderTextFormField(
@@ -237,7 +242,7 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
                       return null;
                     },
                     initialValue: _savedQuantity == null
-                        ? widget._fuelInfo.quantity.toString()
+                        ? widget.fuelInfo.quantity.toString()
                         : _savedQuantity.toString(),
                   ),
                   renderTextFormField(
@@ -253,7 +258,7 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
                       return null;
                     },
                     initialValue: _savedTotalPrice == null
-                        ? widget._fuelInfo.totalPrice.toString()
+                        ? widget.fuelInfo.totalPrice.toString()
                         : _savedTotalPrice.toString(),
                   ),
                   renderButton(context),
