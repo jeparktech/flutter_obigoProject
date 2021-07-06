@@ -38,7 +38,7 @@ class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     if (_list == null) {
-      print('error');
+      print('loading');
       return ChartErrorView();
     } else {
       print('success');

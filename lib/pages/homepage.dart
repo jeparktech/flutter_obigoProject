@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../widgets/category/category.dart';
 
 import '../widgets/calendar/calendar_loader.dart';
 import '../widgets/statistics/statistics.dart';
@@ -35,7 +37,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         //backgroundColor: Colors.white,
-        title: Text('Home Screen',),
+        title: Text(
+          'Home Screen',
+        ),
         centerTitle: true,
         leading: IconButton(
             icon: Icon(Icons.assessment_outlined),
@@ -89,9 +93,6 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _widgetOptions = [
     CalendarLoader(),
-    Text(
-      'Category',
-      style: TextStyle(fontSize: 30),
-    ),
+    CategoryPage(),
   ];
 }
