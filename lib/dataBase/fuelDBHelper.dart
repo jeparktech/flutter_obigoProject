@@ -89,4 +89,19 @@ class FuelDBHelper {
     }
     return true;
   }
+
+  Future<List<FuelInformation>> getMonthList(int year, int month) async {
+    final List<FuelInformation> fuelList = await fuelInfos();
+    DateTime createdDate;
+    List<FuelInformation> sameMonthList = [];
+
+    for (int i = 0; i < fuelList.length; i++) {
+      createdDate = DateTime.parse(fuelList[i].date);
+      if (createdDate.year == year && createdDate.month == month) {
+        sameMonthList.add(fuelList[i]);
+      }
+    }
+
+    return sameMonthList;
+  }
 }
