@@ -15,20 +15,27 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  ValueNotifier<List<FuelInformation>> _selectedEvents;
+  ValueNotifier<List<FuelInformation>>? _selectedEvents;
 
   CalendarFormat format = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
+  List<FuelInformation> _getEventsForDay(DateTime day) {
+    return widget._events[day] ?? [];
+  }
+
+  void callBack(List<FuelInformation> InitialFuelInfos,
+      List<FuelInformation> editiedFuelInfos) {
+    setState(() {
+      InitialFuelInfos = editiedFuelInfos;
+    });
+  }
+
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay));
-  }
-
-  List<FuelInformation> _getEventsForDay(DateTime day) {
-    return widget._events[day] ?? [];
   }
 
   @override
@@ -55,7 +62,7 @@ class _CalendarState extends State<Calendar> {
                 _focusedDay = focusDay;
               });
 
-            _selectedEvents.value = _getEventsForDay(selecDay);
+            _selectedEvents!.value = _getEventsForDay(selecDay);
 
             //_selectedEvents.value = _getEventsfromDay(selecDay);
           },
@@ -87,12 +94,16 @@ class _CalendarState extends State<Calendar> {
         const SizedBox(height: 8.0),
         Expanded(
           child: ValueListenableBuilder<List<FuelInformation>>(
-            valueListenable: _selectedEvents,
+            valueListenable: _selectedEvents!,
             builder: (context, value, _) {
               return ListView.builder(
                 itemCount: value.length,
                 itemBuilder: (context, index) {
-                  return TransactionList(txList: value, tx: value[index]);
+                  return TransactionList(
+                    txList: value,
+                    tx: value[index],
+                    callBack: callBack,
+                  );
                 },
               );
             },

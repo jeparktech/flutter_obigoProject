@@ -14,7 +14,7 @@ class CalendarLoader extends StatefulWidget {
 }
 
 class _CalenderLoaderState extends State<CalendarLoader> {
-  LinkedHashMap<DateTime, List<FuelInformation>> _events;
+  LinkedHashMap<DateTime, List<FuelInformation>>? _events;
 
   @override
   void initState() {
@@ -90,7 +90,7 @@ class _CalenderLoaderState extends State<CalendarLoader> {
     if (_events == null) {
       return EmptyCalendar();
     } else {
-      return Calendar(_events);
+      return Calendar(_events!);
     }
   }
 }

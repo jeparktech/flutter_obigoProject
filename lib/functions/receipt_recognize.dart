@@ -12,7 +12,7 @@ class ReceiptRecognize {
   Future<FuelInformation> detectFuelInfo() async {
     String str = await visionAPICall();
 
-    List<num> _numInfoList = _detectNumInfo(str);
+    List<dynamic> _numInfoList = _detectNumInfo(str);
 
     var fuelInfo = FuelInformation(
         date: _detectDate(str),
@@ -28,8 +28,8 @@ class ReceiptRecognize {
   }
 
   // 단가, 수량 인식 후 총액 계산
-  List<num> _detectNumInfo(String str) {
-    List<num> numInfos = [];
+  List<dynamic> _detectNumInfo(String str) {
+    List<dynamic> numInfos = [];
     int unitPrice = 0;
     double quantity = 0;
     bool gotFirstUnitPrice = false;
@@ -53,10 +53,11 @@ class ReceiptRecognize {
           gotFirstQuantity = true;
         }
       }
-      numInfos.add(unitPrice);
-      numInfos.add(quantity);
-      numInfos.add((unitPrice * quantity).floor());
     }
+
+    numInfos.add(unitPrice);
+    numInfos.add(quantity);
+    numInfos.add((unitPrice * quantity).floor());
     return numInfos;
   }
 
@@ -127,7 +128,7 @@ class ReceiptRecognize {
     //print(responseJson);
     var str =
         '${responseJson["responses"][0]["textAnnotations"][0]["description"]}';
-    // print(str);
+    //print(str);
 
     // //실제로 인식한 영수증 sample text
     // var str =

@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 
 class InputFuelInfoPage extends StatefulWidget {
   static const routeName = '/input-fuel-info';
-  File _image;
-  FuelInformation _fuelInfo;
+  File? _image;
+  FuelInformation? _fuelInfo;
 
   @override
   _InputFuelInfoState createState() => _InputFuelInfoState();
@@ -25,10 +25,10 @@ class _InputFuelInfoState extends State<InputFuelInfoPage> {
     super.initState();
     Future.delayed(Duration.zero, () {
       final routeArgs =
-          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       widget._image = routeArgs['image'];
       widget._fuelInfo = routeArgs['fuelInfo'];
-      ReceiptRecognize(widget._image).detectFuelInfo().then((fuelInfo) {
+      ReceiptRecognize(widget._image!).detectFuelInfo().then((fuelInfo) {
         setState(() {
           widget._fuelInfo = fuelInfo;
         });
@@ -45,7 +45,7 @@ class _InputFuelInfoState extends State<InputFuelInfoPage> {
       ),
       body: widget._fuelInfo == null
           ? Loading()
-          : EditFuelInfo(fuelInfo: widget._fuelInfo),
+          : EditFuelInfo(fuelInfo: widget._fuelInfo!),
     );
   }
 }

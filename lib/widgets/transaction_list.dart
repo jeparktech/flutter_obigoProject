@@ -9,10 +9,12 @@ import './edit_fuel_info.dart';
 class TransactionList extends StatefulWidget {
   final List<dynamic> txList;
   final tx;
+  final Function callBack;
 
   TransactionList({
     required this.txList,
     required this.tx,
+    required this.callBack,
   });
 
   @override
@@ -46,12 +48,11 @@ class _TransactionListState extends State<TransactionList> {
                     child: Text("Delete"),
                   ),
                   onTap: () {
-                    setState(() {
-                      fuelList.remove(fuelInfo); //fuelInfo list에서 삭제
-                      FuelDBHelper()
-                          .deleteFuelInfo(fuelInfo.date); //fuelInfo DB에서 삭제
-                    });
+                    fuelList.remove(fuelInfo); //fuelInfo list에서 삭제
+                    FuelDBHelper()
+                        .deleteFuelInfo(fuelInfo.date); //fuelInfo DB에서 삭제
                     Navigator.pop(context);
+                    widget.callBack(widget.txList, fuelList);
                   }),
             ],
           ),

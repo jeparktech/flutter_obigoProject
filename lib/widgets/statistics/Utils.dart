@@ -23,18 +23,18 @@ class Utils {
 
   static void showSheet(
     BuildContext context, {
-     Widget child,
-     VoidCallback onClicked,
+    Widget? child,
+    VoidCallback? onClicked,
   }) =>
       showCupertinoModalPopup(
         context: context,
         builder: (context) => CupertinoActionSheet(
           actions: [
-            child,
+            child!,
           ],
           cancelButton: CupertinoActionSheetAction(
             child: Text('Done'),
-            onPressed: onClicked,
+            onPressed: onClicked!,
           ),
         ),
       );
