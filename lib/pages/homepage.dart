@@ -34,10 +34,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'Home Screen',
-        ),
+        //backgroundColor: Colors.white,
+        title: Text('Home Screen',),
         centerTitle: true,
         leading: IconButton(
             icon: Icon(Icons.assessment_outlined),
