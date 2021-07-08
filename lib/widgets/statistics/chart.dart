@@ -11,26 +11,24 @@ import 'gasData.dart';
 class Chart extends StatefulWidget {
   List<FuelInformation> list;
 
-  Chart(this.list);
+  Chart({required this.list});
 
   @override
   _ChartState createState() => _ChartState();
 }
 
 class _ChartState extends State<Chart> {
+  int? year;
+  int? month;
   List<GasData>? _chartData;
   TooltipBehavior? _tooltipBehavior;
   DateTime dateTime = DateTime.now();
 
   String dateformat = DateFormat('yyyy/MM').format(DateTime.now());
-  int? year;
-  int? month;
+
   int amount = 0;
 
   void initState() {
-    year = dateTime.year;
-    month = dateTime.month;
-
     _chartData = getChartData(widget.list);
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();

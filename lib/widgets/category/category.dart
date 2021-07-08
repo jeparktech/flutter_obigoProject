@@ -12,10 +12,11 @@ class CategoryPage extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.all(10),
         child: DefaultTabController(
-          length: 6,
+          length: 3,
           child: Column(
             children: <Widget>[
               ButtonsTabBar(
+                duration: 0,
                 backgroundColor: Colors.red,
                 unselectedBackgroundColor: Colors.grey[300],
                 unselectedLabelStyle: TextStyle(color: Colors.black),
@@ -23,33 +24,19 @@ class CategoryPage extends StatelessWidget {
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 tabs: [
                   Tab(
-                    icon: Icon(Icons.directions_car),
-                    text: "car",
+                    text: "세차",
                   ),
                   Tab(
-                    icon: Icon(Icons.directions_transit),
-                    text: "transit",
+                    text: "주차",
                   ),
-                  Tab(icon: Icon(Icons.directions_bike)),
-                  Tab(icon: Icon(Icons.directions_car)),
-                  Tab(icon: Icon(Icons.directions_transit)),
-                  Tab(icon: Icon(Icons.directions_bike)),
+                  Tab(text: "정비"),
                 ],
               ),
               Expanded(
                 child: TabBarView(
                   children: <Widget>[
                     Center(
-                      child: Icon(Icons.directions_car),
-                    ),
-                    Center(
-                      child: Icon(Icons.directions_transit),
-                    ),
-                    Center(
-                      child: Icon(Icons.directions_bike),
-                    ),
-                    Center(
-                      child: Icon(Icons.directions_car),
+                      child: Text('d'),
                     ),
                     Center(
                       child: Icon(Icons.directions_transit),

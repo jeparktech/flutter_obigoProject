@@ -15,12 +15,8 @@ class _StatisticsState extends State<Statistics> {
   int? year;
   int? month;
   List<FuelInformation>? _list;
-  int? amount;
 
   void initState() {
-    year = DateTime.now().year;
-    month = DateTime.now().month;
-
     getList(year!, month!).then((list) {
       setState(() {
         _list = list;
@@ -42,13 +38,9 @@ class _StatisticsState extends State<Statistics> {
       return ChartErrorView();
     } else {
       print('success');
-      return Chart(_list!);
+      return Chart(
+        list: _list!,
+      );
     }
   }
-}
-
-class GDPData {
-  GDPData(this.continent, this.gdp);
-  final String continent;
-  final int gdp;
 }
