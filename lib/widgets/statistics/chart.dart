@@ -145,31 +145,23 @@ class _ChartState extends State<Chart> {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Transactions',
-                            hintStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
+                        child: Text(
+                          'Transactions',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20,
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Transactions',
-                            hintStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        child: Text(
+                          "₩$amount",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20,
                           ),
                         ),
                       ),
