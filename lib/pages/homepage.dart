@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_obigoproject/dataBase/fuelDBHelper.dart';
+import 'package:flutter_obigoproject/models/fuelInfo.dart';
 
 import '../widgets/calendar/calendar_loader.dart';
 import '../widgets/statistics/statistics.dart';
@@ -11,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 //Test for transction_list
-
+  List<FuelInformation>? _list;
   int _selectedIndex = 0;
 
   //camera button
@@ -26,8 +28,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    getList().then((list) {
+      setState(() {
+        _list = list;
+      });
+    });
     // TODO: implement initState
     super.initState();
+  }
+  
+  Future<List<FuelInformation>> getList() async {
+    var fuelDBHelper = FuelDBHelper();
+    _list = await fuelDBHelper.fuelInfos();
+    return _list!;
   }
 
   @override
@@ -42,7 +55,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Statistics()),
+                MaterialPageRoute(builder: (context) => Statistics(_list)),
               );
             }), //통계버튼
       ),

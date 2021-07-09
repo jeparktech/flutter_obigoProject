@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_obigoproject/dataBase/fuelDBHelper.dart';
+
 import 'package:flutter_obigoproject/models/fuelInfo.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_obigoproject/widgets/statistics/statistics.dart';
+
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'Utils.dart';
+
 import 'gasData.dart';
 
 class Chart extends StatefulWidget {
@@ -35,8 +35,9 @@ class _ChartState extends State<Chart> {
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
+  
 
-  @override
+
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
     final mediaQuery = MediaQuery.of(context);
@@ -85,6 +86,7 @@ class _ChartState extends State<Chart> {
                       });
                     },
                   );
+                
                 },
                 //  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0),
                 // style: ButtonStyle(
@@ -105,7 +107,7 @@ class _ChartState extends State<Chart> {
             //   // ),
             // ),
 
-            Container(
+          Container(
               height: 200,
               width: double.infinity,
               child: SfCircularChart(
@@ -149,7 +151,7 @@ class _ChartState extends State<Chart> {
                   ),
             )
           
-          ),
+          )
 
           ],
         ),
@@ -165,13 +167,6 @@ class _ChartState extends State<Chart> {
       GasData('주유', amount),
     ];
     return chartData;
-  }
-
-  Future<List<FuelInformation>> getList(int year, int month) async {
-    var fuelDBHelper = FuelDBHelper();
-    List<FuelInformation> seclist =
-        await fuelDBHelper.getMonthList(year, month);
-    return seclist;
   }
 
   Widget buildDatePicker() => SizedBox(
