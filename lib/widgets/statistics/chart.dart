@@ -28,8 +28,22 @@ class _ChartState extends State<Chart> {
 
   int amount = 0;
 
+  List<FuelInformation> getMonthlyFuelList(int year, int month) {
+    List<FuelInformation> monthlyList = [];
+    DateTime createdDate;
+    for (int i = 0; i < widget.list.length; i++) {
+      createdDate = DateTime.parse(widget.list[i].date);
+      if (createdDate.year == year && createdDate.month == month) {
+        monthlyList.add(widget.list[i]);
+      }
+    }
+
+    return monthlyList;
+  }
+
   void initState() {
-    _chartData = getChartData(widget.list);
+    _chartData = getChartData(
+        getMonthlyFuelList(DateTime.now().year, DateTime.now().month));
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -71,43 +85,27 @@ class _ChartState extends State<Chart> {
                         width: 2,
                         style: BorderStyle.solid),
                     borderRadius: BorderRadius.circular(30)),
-
                 onPressed: () {
                   Utils.showSheet(
                     context,
                     child: buildDatePicker(),
                     onClicked: () {
                       // Utils.showSnackBar(context, 'Selected "$value"');
-                      Navigator.pop(context);
+
                       setState(() {
                         dateformat = DateFormat('yyyy/MM').format(dateTime);
                         year = dateTime.year;
                         month = dateTime.month;
                         Text(dateformat);
+                        _chartData =
+                            getChartData(getMonthlyFuelList(year!, month!));
                       });
+                      Navigator.pop(context);
                     },
                   );
                 },
-                //  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0),
-                // style: ButtonStyle(
-                //   shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
-                // ),
               ),
             ),
-
-            //SizedBox(width: 60),
-            // Container(
-            //   width: 100,
-            //   height: 50,
-            //   child: Column(children: [
-            //     Text("Expense",style: TextStyle(fontSize: 16, color: Colors.black),textAlign: TextAlign.right,),
-            //     Text("₩$amount",style: TextStyle(fontSize: 20, color: Colors.red),textAlign: TextAlign.center,),
-            //   ],),
-            //   // decoration: BoxDecoration(
-            //   //   border: Border.all(color: Colors.blueAccent)
-            //   // ),
-            // ),
-
             Container(
               height: 200,
               width: double.infinity,
@@ -173,6 +171,8 @@ class _ChartState extends State<Chart> {
   }
 
   List<GasData> getChartData(List<FuelInformation> list) {
+    amount = 0;
+
     for (int i = 0; i < list.length; i++) {
       amount = amount + list[i].totalPrice;
     }

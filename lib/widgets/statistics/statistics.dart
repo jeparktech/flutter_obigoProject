@@ -7,39 +7,27 @@ import 'package:flutter_obigoproject/widgets/statistics/chart_errorView.dart';
 import 'package:intl/intl.dart';
 
 class Statistics extends StatefulWidget {
+  final List<FuelInformation>? _list;
+
+  const Statistics(this._list);
   @override
   _StatisticsState createState() => _StatisticsState();
 }
 
 class _StatisticsState extends State<Statistics> {
-  int? year;
-  int? month;
-  List<FuelInformation>? _list;
-
   void initState() {
-    getList(year!, month!).then((list) {
-      setState(() {
-        _list = list;
-      });
-    });
     super.initState();
-  }
-
-  Future<List<FuelInformation>> getList(int year, int month) async {
-    var fuelDBHelper = FuelDBHelper();
-    _list = await fuelDBHelper.getMonthList(year, month);
-    return _list!;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_list == null) {
+    if (widget._list == null) {
       print('loading');
       return ChartErrorView();
     } else {
       print('success');
       return Chart(
-        list: _list!,
+        list: widget._list!,
       );
     }
   }

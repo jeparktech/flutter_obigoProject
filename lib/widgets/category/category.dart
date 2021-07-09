@@ -16,7 +16,7 @@ class CategoryPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               ButtonsTabBar(
-                duration: 0,
+                duration: 1,
                 backgroundColor: Colors.red,
                 unselectedBackgroundColor: Colors.grey[300],
                 unselectedLabelStyle: TextStyle(color: Colors.black),
@@ -24,12 +24,12 @@ class CategoryPage extends StatelessWidget {
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 tabs: [
                   Tab(
-                    text: "세차",
+                    text: '세차',
                   ),
                   Tab(
-                    text: "주차",
+                    text: '주차',
                   ),
-                  Tab(text: "정비"),
+                  Tab(text: '정비'),
                 ],
               ),
               Expanded(
