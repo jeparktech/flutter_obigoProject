@@ -16,7 +16,7 @@ class CategoryPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               ButtonsTabBar(
-                duration: 1,
+                borderWidth: 0,
                 backgroundColor: Colors.red,
                 unselectedBackgroundColor: Colors.grey[300],
                 unselectedLabelStyle: TextStyle(color: Colors.black),
