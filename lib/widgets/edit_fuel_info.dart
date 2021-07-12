@@ -39,7 +39,7 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
     // }
 
     // DB에 정보가 잘 들어갔는지 확인
-    List<FuelInformation> fuelInfoList = await fuelDBHelper.fuelInfos();
+    List<dynamic> fuelInfoList = await fuelDBHelper.fuelInfos();
     for (int i = 0; i < fuelInfoList.length; i++) {
       print('Fuel Information #${i + 1}-----------------${fuelInfoList[i]}\n');
     }
@@ -166,16 +166,10 @@ class _EditFuelInfoState extends State<EditFuelInfo> {
   }
 
   bool _isInteger(String str) {
-    if (str == null) {
-      return false;
-    }
     return int.tryParse(str) != null;
   }
 
   bool _isDouble(String str) {
-    if (str == null) {
-      return false;
-    }
     return double.tryParse(str) != null;
   }
 

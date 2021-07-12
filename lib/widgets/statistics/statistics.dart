@@ -7,7 +7,7 @@ import 'package:flutter_obigoproject/widgets/statistics/chart_errorView.dart';
 import 'package:intl/intl.dart';
 
 class Statistics extends StatefulWidget {
-  final List<FuelInformation>? _list;
+  final List<dynamic>? _list;
 
   const Statistics(this._list);
   @override

@@ -9,7 +9,7 @@ import 'Utils.dart';
 import 'gasData.dart';
 
 class Chart extends StatefulWidget {
-  List<FuelInformation> list;
+  List<dynamic> list;
 
   Chart({required this.list});
 
@@ -182,10 +182,9 @@ class _ChartState extends State<Chart> {
     return chartData;
   }
 
-  Future<List<FuelInformation>> getList(int year, int month) async {
+  Future<List<dynamic>> getList(int year, int month) async {
     var fuelDBHelper = FuelDBHelper();
-    List<FuelInformation> seclist =
-        await fuelDBHelper.getMonthList(year, month);
+    List<dynamic> seclist = await fuelDBHelper.getMonthList(year, month);
     return seclist;
   }
 

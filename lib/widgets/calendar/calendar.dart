@@ -7,7 +7,7 @@ import '../../models/fuelInfo.dart';
 import '../transaction_list.dart';
 
 class Calendar extends StatefulWidget {
-  LinkedHashMap<DateTime, List<FuelInformation>> _events;
+  LinkedHashMap<DateTime, List<dynamic>> _events;
 
   Calendar(this._events);
   @override
@@ -15,20 +15,19 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  ValueNotifier<List<FuelInformation>>? _selectedEvents;
+  ValueNotifier<List<dynamic>>? _selectedEvents;
 
   CalendarFormat format = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
-  List<FuelInformation> _getEventsForDay(DateTime day) {
+  List<dynamic> _getEventsForDay(DateTime day) {
     return widget._events[day] ?? [];
   }
 
-  void callBack(List<FuelInformation> initialFuelInfos,
-      List<FuelInformation> editiedFuelInfos) {
+  void callBack(List<dynamic> initialInfos, List<dynamic> editiedInfos) {
     setState(() {
-      initialFuelInfos = editiedFuelInfos;
+      initialInfos = editiedInfos;
     });
   }
 
@@ -93,7 +92,7 @@ class _CalendarState extends State<Calendar> {
         ),
         const SizedBox(height: 8.0),
         Expanded(
-          child: ValueListenableBuilder<List<FuelInformation>>(
+          child: ValueListenableBuilder<List<dynamic>>(
             valueListenable: _selectedEvents!,
             builder: (context, value, _) {
               return ListView.builder(
