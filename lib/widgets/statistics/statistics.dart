@@ -5,9 +5,8 @@ import 'package:flutter_obigoproject/models/fuelInfo.dart';
 import 'package:flutter_obigoproject/pages/chart_error_page.dart';
 import 'package:flutter_obigoproject/pages/chartpage.dart';
 
-
 class Statistics extends StatefulWidget {
-  final List<FuelInformation>? _list;
+  final List<dynamic>? _list;
 
   const Statistics(this._list);
   @override
@@ -15,10 +14,6 @@ class Statistics extends StatefulWidget {
 }
 
 class _StatisticsState extends State<Statistics> {
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     if (widget._list == null) {
@@ -26,9 +21,7 @@ class _StatisticsState extends State<Statistics> {
       return ChartErrorPage();
     } else {
       print('success');
-      return ChartPage(
-        list: widget._list!
-      );
+      return ChartPage(list: widget._list);
     }
   }
 }

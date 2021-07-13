@@ -23,11 +23,16 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
-  openBottomSheet(BuildContext context, List<FuelInformation> fuelList,
-      FuelInformation fuelInfo) {
+  openBottomSheet(
+      BuildContext context, List<dynamic> list, FuelInformation fuelInfo) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
+        List<FuelInformation>? fuelList;
+        List<OtherInformation> otherList;
+        if (list is List<FuelInformation>) {
+          fuelList = list;
+        }
         return Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -49,7 +54,7 @@ class _TransactionListState extends State<TransactionList> {
                     child: Text("Delete"),
                   ),
                   onTap: () {
-                    fuelList.remove(fuelInfo); //fuelInfo list에서 삭제
+                    fuelList!.remove(fuelInfo); //fuelInfo list에서 삭제
                     FuelDBHelper()
                         .deleteFuelInfo(fuelInfo.date); //fuelInfo DB에서 삭제
                     Navigator.pop(context);
@@ -212,9 +217,10 @@ class _TransactionListState extends State<TransactionList> {
                             ),
                             onTap: () {
                               openBottomSheet(
-                                  context,
-                                  widget.txList as List<FuelInformation>,
-                                  widget.tx);
+                                context,
+                                widget.txList,
+                                widget.tx,
+                              );
                             },
                           ),
                         ),

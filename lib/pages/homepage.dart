@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 //Test for transction_list
-  List<FuelInformation>? _list;
   int _selectedIndex = 0;
   List<dynamic>? infoLists;
 
@@ -37,7 +36,6 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
   }
-  
 
   Future<List<dynamic>> getList() async {
     return await FuelDBHelper().everyInfos();

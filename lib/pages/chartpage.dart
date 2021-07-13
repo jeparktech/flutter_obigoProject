@@ -5,14 +5,11 @@ import 'package:flutter_obigoproject/models/fuelInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_obigoproject/models/fuel_qtt_data.dart';
 
-
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-
-
 class ChartPage extends StatefulWidget {
-  List<FuelInformation> list;
+  List<dynamic>? list;
 
   ChartPage({required this.list});
 
@@ -22,6 +19,7 @@ class ChartPage extends StatefulWidget {
 
 class _ChartPageState extends State<ChartPage> {
   List<FuelQttData>? chartBarData;
+  List<FuelInformation>? _fuelList;
 
   int? year;
   int? month;
@@ -35,13 +33,24 @@ class _ChartPageState extends State<ChartPage> {
   int maintenanceFee = 0;
   int totalAmount = 0;
 
+  List<FuelInformation> getFuelInfoList() {
+    List<FuelInformation> fuelInfoList = [];
+
+    for (var info in widget.list!) {
+      if (info is FuelInformation) {
+        fuelInfoList.add(info);
+      }
+    }
+    return fuelInfoList;
+  }
+
   List<FuelInformation> getMonthlyFuelList(int year, int month) {
     List<FuelInformation> monthlyList = [];
     DateTime createdDate;
-    for (int i = 0; i < widget.list.length; i++) {
-      createdDate = DateTime.parse(widget.list[i].date);
+    for (int i = 0; i < _fuelList!.length; i++) {
+      createdDate = DateTime.parse(_fuelList![i].date);
       if (createdDate.year == year && createdDate.month == month) {
-        monthlyList.add(widget.list[i]);
+        monthlyList.add(_fuelList![i]);
       }
     }
 
@@ -49,14 +58,13 @@ class _ChartPageState extends State<ChartPage> {
   }
 
   void initState() {
+    _fuelList = getFuelInfoList();
     chartBarData = getChartBarData(getMonthlyFuelQtt(DateTime.now().year));
     _chartData = getPieChartData(
         getMonthlyFuelList(DateTime.now().year, DateTime.now().month));
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
-  
-
 
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
@@ -93,8 +101,7 @@ class _ChartPageState extends State<ChartPage> {
                         color: Colors.white,
                         width: 2,
                         style: BorderStyle.solid),
-                    borderRadius: BorderRadius.circular(30)
-                ),
+                    borderRadius: BorderRadius.circular(30)),
                 onPressed: () {
                   Utils.showSheet(
                     context,
@@ -107,7 +114,8 @@ class _ChartPageState extends State<ChartPage> {
                         Text(dateformat);
                         _chartData =
                             getPieChartData(getMonthlyFuelList(year!, month!));
-                        chartBarData = getChartBarData(getMonthlyFuelQtt(year!));
+                        chartBarData =
+                            getChartBarData(getMonthlyFuelQtt(year!));
                       });
                       Navigator.pop(context);
                     },
@@ -162,60 +170,47 @@ class _ChartPageState extends State<ChartPage> {
                     ],
                   ),
                 )),
-
-             Container(
-               height: 300,
-               child: 
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Container(
-                      width: 800,
-                      color: primaryColor,
-                      child: SfCartesianChart(
-                        
+            Container(
+              height: 300,
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    width: 800,
+                    color: primaryColor,
+                    child: SfCartesianChart(
                         primaryXAxis: CategoryAxis(),
                         //zoomPanBehavior: _zoomPanBehavior,
                         margin: EdgeInsets.all(20),
-                        primaryYAxis: NumericAxis(
-                          minimum: 10,
-                          maximum: 100
-                        ),    
+                        primaryYAxis: NumericAxis(minimum: 10, maximum: 100),
                         series: <CartesianSeries>[
                           ColumnSeries<FuelQttData, String>(
-                            dataSource: chartBarData!,
-                            xValueMapper: (FuelQttData data, _) => data.month,
-                            yValueMapper: (FuelQttData data, _) => data.qtt,
-                            dataLabelSettings: DataLabelSettings(
-                              isVisible: true,
-                              color: Colors.white
-                            ),
-                            emptyPointSettings: EmptyPointSettings(
-                            // Mode of empty point
-                              mode: EmptyPointMode.average
-                            )
-                          )      
-                        ]
-                      ),
-                    )      
-                ),
-             ),
+                              dataSource: chartBarData!,
+                              xValueMapper: (FuelQttData data, _) => data.month,
+                              yValueMapper: (FuelQttData data, _) => data.qtt,
+                              dataLabelSettings: DataLabelSettings(
+                                  isVisible: true, color: Colors.white),
+                              emptyPointSettings: EmptyPointSettings(
+                                  // Mode of empty point
+                                  mode: EmptyPointMode.average))
+                        ]),
+                  )),
+            ),
           ],
         ),
       ),
     );
   }
 
-
-
   List<double> getMonthlyFuelQtt(int year) {
-    List<double> monthlyList = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+    List<double> monthlyList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     DateTime createdDate;
-    for (int i = 0; i < widget.list.length; i++) {
-      createdDate = DateTime.parse(widget.list[i].date);
-      if (createdDate.year == year ) {
+    for (int i = 0; i < _fuelList!.length; i++) {
+      createdDate = DateTime.parse(_fuelList![i].date);
+      if (createdDate.year == year) {
         print(createdDate.month);
-        monthlyList[createdDate.month] = monthlyList[createdDate.month] + widget.list[i].quantity;
+        monthlyList[createdDate.month] =
+            monthlyList[createdDate.month] + _fuelList![i].quantity;
         print(monthlyList[createdDate.month]);
       }
     }
@@ -223,27 +218,24 @@ class _ChartPageState extends State<ChartPage> {
   }
 
   List<FuelQttData> getChartBarData(List<double> list) {
-    
-      final List<FuelQttData> chartBarData = [
-            FuelQttData('Jan', list[1]),
-            FuelQttData('Feb', list[2]),
-            FuelQttData('Mar', list[3]),
-            FuelQttData('Apr', list[4]),
-            FuelQttData('Man', list[5]),
-            FuelQttData('Jun', list[6]),
-            FuelQttData('July', list[7]),
-            FuelQttData('Aug', list[8]),
-            FuelQttData('Sep', list[9]),
-            FuelQttData('Oct', list[10]),
-            FuelQttData('Nov', list[11]),
-            FuelQttData('Dec', list[12]),
-         
-      ];
-    
-    return chartBarData;
+    final List<FuelQttData> chartBarData = [
+      FuelQttData('Jan', list[1]),
+      FuelQttData('Feb', list[2]),
+      FuelQttData('Mar', list[3]),
+      FuelQttData('Apr', list[4]),
+      FuelQttData('Man', list[5]),
+      FuelQttData('Jun', list[6]),
+      FuelQttData('July', list[7]),
+      FuelQttData('Aug', list[8]),
+      FuelQttData('Sep', list[9]),
+      FuelQttData('Oct', list[10]),
+      FuelQttData('Nov', list[11]),
+      FuelQttData('Dec', list[12]),
+    ];
 
+    return chartBarData;
   }
- 
+
   List<Expense> getPieChartData(List<FuelInformation> list) {
     gasAmount = 0;
     maintenanceFee = 3000;
@@ -259,7 +251,6 @@ class _ChartPageState extends State<ChartPage> {
     return chartData;
   }
 
-
   Widget buildDatePicker() => SizedBox(
         height: 180,
         child: CupertinoDatePicker(
@@ -270,7 +261,5 @@ class _ChartPageState extends State<ChartPage> {
           onDateTimeChanged: (dateTime) =>
               setState(() => this.dateTime = dateTime),
         ),
-  );
-
-  
+      );
 }
