@@ -25,10 +25,10 @@ class _CalendarState extends State<Calendar> {
     return widget._events[day] ?? [];
   }
 
-  void callBack(List<FuelInformation> InitialFuelInfos,
+  void callBack(List<FuelInformation> initialFuelInfos,
       List<FuelInformation> editiedFuelInfos) {
     setState(() {
-      InitialFuelInfos = editiedFuelInfos;
+      initialFuelInfos = editiedFuelInfos;
     });
   }
 

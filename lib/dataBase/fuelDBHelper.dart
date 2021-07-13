@@ -89,7 +89,7 @@ class FuelDBHelper {
     }
     return true;
   }
-
+/*
   Future<List<FuelInformation>> getMonthList(int year, int month) async {
     final List<FuelInformation> fuelList = await fuelInfos();
     DateTime createdDate;
@@ -104,4 +104,5 @@ class FuelDBHelper {
 
     return sameMonthList;
   }
+  */
 }

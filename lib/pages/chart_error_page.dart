@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ChartErrorView extends StatefulWidget {
+class ChartErrorPage extends StatefulWidget {
 @override
-  _ChartErrorViewState createState() => _ChartErrorViewState();
+  _ChartErrorPageState createState() => _ChartErrorPageState();
 }
 
-class _ChartErrorViewState extends State<ChartErrorView> {
+class _ChartErrorPageState extends State<ChartErrorPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

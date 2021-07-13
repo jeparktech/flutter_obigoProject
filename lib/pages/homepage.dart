@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_obigoproject/dataBase/fuelDBHelper.dart';
 import 'package:flutter_obigoproject/models/fuelInfo.dart';
+import '../widgets/category/category.dart';
 
+import '../dataBase/fuelDBHelper.dart';
 import '../widgets/calendar/calendar_loader.dart';
 import '../widgets/statistics/statistics.dart';
 import '../widgets/new_Image.dart';
@@ -15,6 +16,7 @@ class _HomePageState extends State<HomePage> {
 //Test for transction_list
   List<FuelInformation>? _list;
   int _selectedIndex = 0;
+  List<FuelInformation>? fuelLists;
 
   //camera button
   openBottomSheet(BuildContext context) {
@@ -28,10 +30,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    getList().then((list) {
-      setState(() {
-        _list = list;
-      });
+    getFuelList().then((list) {
+      fuelLists = list;
     });
     // TODO: implement initState
     super.initState();
@@ -43,19 +43,25 @@ class _HomePageState extends State<HomePage> {
     return _list!;
   }
 
+  Future<List<FuelInformation>> getFuelList() async {
+    return await FuelDBHelper().fuelInfos();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         //backgroundColor: Colors.white,
-        title: Text('Home Screen',),
+        title: Text(
+          'Home Screen',
+        ),
         centerTitle: true,
         leading: IconButton(
             icon: Icon(Icons.assessment_outlined),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Statistics(_list)),
+                MaterialPageRoute(builder: (context) => Statistics(fuelLists)),
               );
             }), //통계버튼
       ),
@@ -102,9 +108,6 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _widgetOptions = [
     CalendarLoader(),
-    Text(
-      'Category',
-      style: TextStyle(fontSize: 30),
-    ),
+    CategoryPage(),
   ];
 }
