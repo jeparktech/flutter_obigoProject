@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_obigoproject/models/fuelInfo.dart';
+
 import 'package:flutter_obigoproject/pages/chart_error_page.dart';
 import 'package:flutter_obigoproject/pages/chartpage.dart';
 

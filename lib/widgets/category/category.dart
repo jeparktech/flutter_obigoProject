@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:flutter_obigoproject/models/otherInfo.dart';
+import 'package:flutter_obigoproject/widgets/edit_other_info.dart';
 
 class CategoryPage extends StatelessWidget {
   CategoryPage({Key? key}) : super(key: key);
@@ -15,34 +17,46 @@ class CategoryPage extends StatelessWidget {
           length: 3,
           child: Column(
             children: <Widget>[
-              ButtonsTabBar(
-                duration: 1,
-                backgroundColor: Colors.red,
-                unselectedBackgroundColor: Colors.grey[300],
-                unselectedLabelStyle: TextStyle(color: Colors.black),
-                labelStyle:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                tabs: [
-                  Tab(
-                    text: '세차',
-                  ),
-                  Tab(
-                    text: '주차',
-                  ),
-                  Tab(text: '정비'),
-                ],
+              Container(
+                decoration: BoxDecoration(border: Border.all()),
+                child: ButtonsTabBar(
+                  //decoration: BoxDecoration(border: Border.all()),
+                  backgroundColor: Colors.blue,
+                  unselectedBackgroundColor: Colors.grey[300],
+                  unselectedLabelStyle: TextStyle(color: Colors.black),
+                  labelStyle: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                  tabs: [
+                    Tab(
+                      text: '세차',
+                    ),
+                    Tab(
+                      text: '주차',
+                    ),
+                    Tab(text: '정비'),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Expanded(
                 child: TabBarView(
                   children: <Widget>[
                     Center(
-                      child: Text('d'),
+                      child: EditOtherInfo(
+                        infoType: InfoType.carWashInfo,
+                      ),
                     ),
                     Center(
-                      child: Icon(Icons.directions_transit),
+                      child: EditOtherInfo(
+                        infoType: InfoType.parkingInfo,
+                      ),
                     ),
                     Center(
-                      child: Icon(Icons.directions_bike),
+                      child: EditOtherInfo(
+                        infoType: InfoType.repairInfo,
+                      ),
                     ),
                   ],
                 ),

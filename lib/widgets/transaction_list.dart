@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_obigoproject/models/otherInfo.dart';
 import 'package:intl/intl.dart';
 
 import '../models/fuelInfo.dart';
@@ -61,6 +62,91 @@ class _TransactionListState extends State<TransactionList> {
     );
   }
 
+  Widget getInfoType() {
+    String str;
+    if (widget.tx is FuelInformation) {
+      str = '주유';
+    } else {
+      OtherInformation info = widget.tx as OtherInformation;
+      switch (info.infoType) {
+        case InfoType.carWashInfo:
+          str = '세차';
+          break;
+        case InfoType.parkingInfo:
+          str = '주차';
+          break;
+        case InfoType.repairInfo:
+          str = '수리';
+          break;
+        default:
+          str = '';
+      }
+    }
+
+    return Text(str,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold));
+  }
+
+  Widget getInfoIcon() {
+    Icon? _icon;
+    Color? _color;
+
+    if (widget.tx is FuelInformation) {
+      _icon = Icon(
+        Icons.local_gas_station_rounded,
+        size: 28,
+        color: Colors.white,
+      );
+      _color = Colors.blue;
+    } else {
+      OtherInformation info = widget.tx as OtherInformation;
+      switch (info.infoType) {
+        case InfoType.carWashInfo:
+          _icon = Icon(
+            Icons.car_rental_outlined,
+            size: 28,
+            color: Colors.white,
+          );
+          _color = Colors.blue;
+          break;
+        case InfoType.parkingInfo:
+          _icon = Icon(
+            Icons.local_parking_outlined,
+            size: 28,
+            color: Colors.white,
+          );
+          _color = Colors.blue;
+          break;
+        case InfoType.repairInfo:
+          _icon = Icon(
+            Icons.car_repair_outlined,
+            size: 28,
+            color: Colors.white,
+          );
+          _color = Colors.blue;
+          break;
+        default:
+          _icon = Icon(
+            Icons.error_outline,
+            size: 28,
+            color: Colors.white,
+          );
+          _color = Colors.blue;
+      }
+    }
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: _color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Center(child: _icon),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -73,7 +159,7 @@ class _TransactionListState extends State<TransactionList> {
       ),
       child: Card(
         elevation: 3,
-        child: Container(
+        child: Padding(
           padding: EdgeInsets.symmetric(vertical: 7),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -82,23 +168,7 @@ class _TransactionListState extends State<TransactionList> {
                 width: 40,
                 height: 40,
                 child: Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Center(
-                        child: Icon(
-                          Icons.local_gas_station_rounded,
-                          size: 28,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: getInfoIcon(),
                 ),
               ),
               SizedBox(
@@ -106,9 +176,7 @@ class _TransactionListState extends State<TransactionList> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('주유',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    getInfoType(),
                     SizedBox(height: 5),
                     Text(
                       DateFormat('MM.dd')
@@ -126,49 +194,41 @@ class _TransactionListState extends State<TransactionList> {
                 children: [
                   SizedBox(
                     height: 31,
-                    child: Container(
-                      //decoration: BoxDecoration(border: Border.all()),
-                      child: Row(
-                        children: [
-                          Text(
-                            '${widget.tx.unitPrice} ₩/L',
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                          SizedBox(
-                            width: 16,
-                            child: Container(
-                              //decoration: BoxDecoration(border: Border.all()),
-                              child: InkWell(
-                                child: Icon(
-                                  Icons.more_vert,
-                                  size: 18,
-                                  color: Colors.black54,
-                                ),
-                                onTap: () {
-                                  openBottomSheet(
-                                      context,
-                                      widget.txList as List<FuelInformation>,
-                                      widget.tx);
-                                },
-                              ),
+                    child: Row(
+                      children: [
+                        widget.tx is FuelInformation
+                            ? Text(
+                                '${widget.tx.unitPrice} ₩/L',
+                                style: TextStyle(color: Colors.black54),
+                              )
+                            : Container(),
+                        SizedBox(
+                          width: 16,
+                          child: InkWell(
+                            child: Icon(
+                              Icons.more_vert,
+                              size: 18,
+                              color: Colors.black54,
                             ),
+                            onTap: () {
+                              openBottomSheet(
+                                  context,
+                                  widget.txList as List<FuelInformation>,
+                                  widget.tx);
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  Container(
-                    //decoration: BoxDecoration(border: Border.all()),
-                    child: Text(
-                      '₩ ${widget.tx.totalPrice}',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                  Text(
+                    '₩ ${widget.tx.totalPrice}',
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
               ),
             ],
           ),
-          //Text('${widget.tx.totalPrice} 원'),
         ),
       ),
     );

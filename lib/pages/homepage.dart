@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_obigoproject/models/fuelInfo.dart';
+import '../models/fuelInfo.dart';
 import '../widgets/category/category.dart';
 
 import '../dataBase/fuelDBHelper.dart';
 import '../widgets/calendar/calendar_loader.dart';
 import '../widgets/statistics/statistics.dart';
 import '../widgets/new_Image.dart';
+import '../models/otherInfo.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
 //Test for transction_list
   List<FuelInformation>? _list;
   int _selectedIndex = 0;
-  List<FuelInformation>? fuelLists;
+  List<dynamic>? infoLists;
 
   //camera button
   openBottomSheet(BuildContext context) {
@@ -30,25 +31,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    getFuelList().then((list) {
-      fuelLists = list;
+    getList().then((list) {
+      infoLists = list;
     });
     // TODO: implement initState
     super.initState();
   }
   
-  Future<List<FuelInformation>> getList() async {
-    var fuelDBHelper = FuelDBHelper();
-    _list = await fuelDBHelper.fuelInfos();
-    return _list!;
-  }
 
-  Future<List<FuelInformation>> getFuelList() async {
-    return await FuelDBHelper().fuelInfos();
+  Future<List<dynamic>> getList() async {
+    return await FuelDBHelper().everyInfos();
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return Scaffold(
       appBar: AppBar(
         //backgroundColor: Colors.white,
@@ -61,20 +58,22 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Statistics(fuelLists)),
+                MaterialPageRoute(builder: (context) => Statistics(infoLists)),
               );
             }), //통계버튼
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          openBottomSheet(context);
-        },
-        child: Icon(
-          Icons.camera_alt,
-          color: Colors.grey,
-        ),
-        backgroundColor: Colors.white,
-      ),
+      floatingActionButton: showFab
+          ? FloatingActionButton(
+              onPressed: () {
+                openBottomSheet(context);
+              },
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.grey,
+              ),
+              backgroundColor: Colors.white,
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

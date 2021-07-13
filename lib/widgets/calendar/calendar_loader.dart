@@ -14,7 +14,7 @@ class CalendarLoader extends StatefulWidget {
 }
 
 class _CalenderLoaderState extends State<CalendarLoader> {
-  LinkedHashMap<DateTime, List<FuelInformation>>? _events;
+  LinkedHashMap<DateTime, List<dynamic>>? _events;
 
   @override
   void initState() {
@@ -28,44 +28,24 @@ class _CalenderLoaderState extends State<CalendarLoader> {
     });
   }
 
-  Future<LinkedHashMap<DateTime, List<FuelInformation>>>
-      _eventsGenerated() async {
+  Future<LinkedHashMap<DateTime, List<dynamic>>> _eventsGenerated() async {
     var fuelDBHelper = FuelDBHelper();
-    var fuelInfoList = await fuelDBHelper.fuelInfos();
+    var infoList = await fuelDBHelper.everyInfos();
 
-    // var fuelInfoList = [
-    //   FuelInformation(
-    //       date: '2021-06-29',
-    //       fuelType: '휘발유',
-    //       quantity: 59.65,
-    //       totalPrice: 53000,
-    //       unitPrice: 1350),
-    //   FuelInformation(
-    //       date: '2021-06-15',
-    //       fuelType: '휘발유',
-    //       quantity: 59.65,
-    //       totalPrice: 89000,
-    //       unitPrice: 1350),
-    //   FuelInformation(
-    //       date: '2021-06-29',
-    //       fuelType: '경유',
-    //       quantity: 59.65,
-    //       totalPrice: 36000,
-    //       unitPrice: 1350),
-    //   FuelInformation(
-    //       date: '2021-06-07',
-    //       fuelType: '경유',
-    //       quantity: 59.65,
-    //       totalPrice: 36000,
-    //       unitPrice: 1350)
-    // ];
-    final Map<DateTime, List<FuelInformation>> _kEventSource = Map.fromIterable(
-        fuelInfoList,
-        key: (item) => DateTime.parse(item.date),
+    final Map<DateTime, List<dynamic>> _kEventSource = Map.fromIterable(
+        infoList,
+        key: (item) {
+          if (item.date != null)
+            return DateTime.parse(item.date);
+          else {
+            print('item : ${item.toString()}');
+            return DateTime.now();
+          }
+        },
         value: (item) =>
-            getFuelInfoFromDay(DateTime.parse(item.date), fuelInfoList));
+            getFuelInfoFromDay(DateTime.parse(item.date), infoList));
 
-    final kEvents = LinkedHashMap<DateTime, List<FuelInformation>>(
+    final kEvents = LinkedHashMap<DateTime, List<dynamic>>(
       equals: isSameDay,
       hashCode: getHashCode,
     )..addAll(_kEventSource);
@@ -73,10 +53,12 @@ class _CalenderLoaderState extends State<CalendarLoader> {
     return kEvents;
   }
 
-  List<FuelInformation> getFuelInfoFromDay(
-      DateTime day, List<FuelInformation> list) {
+  List<dynamic> getFuelInfoFromDay(DateTime day, List<dynamic> list) {
     final listFromDay = list.where((val) {
-      return DateTime.parse(val.date) == day;
+      if (val.date != null) {
+        return DateTime.parse(val.date) == day;
+      }
+      return false;
     }).toList();
     return listFromDay;
   }
