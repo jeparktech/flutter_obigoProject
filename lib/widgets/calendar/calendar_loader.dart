@@ -34,7 +34,14 @@ class _CalenderLoaderState extends State<CalendarLoader> {
 
     final Map<DateTime, List<dynamic>> _kEventSource = Map.fromIterable(
         infoList,
-        key: (item) => DateTime.parse(item.date),
+        key: (item) {
+          if (item.date != null)
+            return DateTime.parse(item.date);
+          else {
+            print('item : ${item.toString()}');
+            return DateTime.now();
+          }
+        },
         value: (item) =>
             getFuelInfoFromDay(DateTime.parse(item.date), infoList));
 
@@ -48,7 +55,10 @@ class _CalenderLoaderState extends State<CalendarLoader> {
 
   List<dynamic> getFuelInfoFromDay(DateTime day, List<dynamic> list) {
     final listFromDay = list.where((val) {
-      return DateTime.parse(val.date) == day;
+      if (val.date != null) {
+        return DateTime.parse(val.date) == day;
+      }
+      return false;
     }).toList();
     return listFromDay;
   }

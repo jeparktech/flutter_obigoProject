@@ -11,22 +11,26 @@ class EditOtherInfo extends StatefulWidget {
 }
 
 class _EditOtherInfoState extends State<EditOtherInfo> {
-  String? date;
-  int? totalAmount;
-  int? cm;
-  String? memo;
+  String? _date;
+  int? _totalPrice;
+  int? _cm;
+  String? _memo;
   final formKey = GlobalKey<FormState>();
 
-  _submitData() {
+  _submitData() async {
     var othersDBHelper = FuelDBHelper();
     final otherInformation = OtherInformation(
-        date: date,
-        totalAmount: totalAmount,
-        cm: cm,
-        memo: memo,
+        date: _date,
+        totalPrice: _totalPrice,
+        cm: _cm,
+        memo: _memo,
         infoType: widget.infoType);
-
+    print('otherInformation: $otherInformation');
     othersDBHelper.insertOthersInfo(otherInformation);
+    List<dynamic> fuelInfoList = await othersDBHelper.otherInfos();
+    for (int i = 0; i < fuelInfoList.length; i++) {
+      print('Fuel Information #${i + 1}-----------------${fuelInfoList[i]}\n');
+    }
   }
 
   renderTextFormField({
@@ -64,7 +68,12 @@ class _EditOtherInfoState extends State<EditOtherInfo> {
       onPressed: () async {
         if (this.formKey.currentState!.validate()) {
           this.formKey.currentState!.save();
+
+          print(
+            '********저장된 정보********\n날짜: $_date, 종류: ${widget.infoType}, 총액: $_totalPrice, 누적 이동거리: $_cm, 메모: $_memo',
+          );
           _submitData();
+
           Navigator.of(context).pushNamed('/');
         }
       },
@@ -91,7 +100,7 @@ class _EditOtherInfoState extends State<EditOtherInfo> {
                 renderTextFormField(
                   label: '날짜',
                   onSaved: (val) {
-                    date = val;
+                    _date = val;
                   },
                   validator: (val) {
                     if (!RegExp(r'202[0-9]-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])')
@@ -106,7 +115,7 @@ class _EditOtherInfoState extends State<EditOtherInfo> {
                 renderTextFormField(
                   label: '누적 주행거리 (km)',
                   onSaved: (val) {
-                    cm = int.parse(val);
+                    _cm = int.parse(val);
                   },
                   validator: (val) {
                     if (!_isInteger(val)) {
@@ -119,7 +128,7 @@ class _EditOtherInfoState extends State<EditOtherInfo> {
                 renderTextFormField(
                   label: '총액',
                   onSaved: (val) {
-                    totalAmount = int.parse(val);
+                    _totalPrice = int.parse(val);
                   },
                   validator: (val) {
                     if (!_isInteger(val)) {
@@ -152,7 +161,7 @@ class _EditOtherInfoState extends State<EditOtherInfo> {
                       elevation: 3,
                       child: TextFormField(
                         onSaved: (val) {
-                          memo = val;
+                          _memo = val;
                         },
                         minLines: 1,
                         maxLines: 10,

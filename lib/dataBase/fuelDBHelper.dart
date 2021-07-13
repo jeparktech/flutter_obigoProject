@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 
 class FuelDBHelper {
   Future<Database>? fuelDB;
+  String? infoType;
 
   FuelDBHelper() {
     fuelDB = openFuelInfoDB();
@@ -15,14 +16,15 @@ class FuelDBHelper {
   Future<Database> openFuelInfoDB() async {
     WidgetsFlutterBinding.ensureInitialized();
     String path = join(await getDatabasesPath(), 'car_database.db');
+    //await deleteDatabase(path);
     // Open Database: fuelDB
     fuelDB = openDatabase(
       path,
       onCreate: (db, version) async {
         db.execute(
-            'CREATE TABLE fuelInfos(date TEXT PRIMARY KEY, address TEXT, fuelType TEXT, unitPrice INTEGER, quantity REAL, totalPrice INTEGER)');
+            'CREATE TABLE fuelInfos(date TEXT PRIMARY KEY, fuelType TEXT, unitPrice INTEGER, quantity REAL, totalPrice INTEGER)');
         db.execute(
-            'CREATE TABLE otherInfos(date TEXT PRIMARY KEY, totalAmount INTEGER, cm INTEGER, memo TEXT, infoType INTEGER)');
+            'CREATE TABLE otherInfos(id TEXT PRIMARY KEY, date TEXT, totalPrice INTEGER, cm INTEGER, memo TEXT, infoType TEXT)');
       },
       version: 1,
     );
@@ -53,7 +55,7 @@ class FuelDBHelper {
 
   Future<List<dynamic>> everyInfos() async {
     List<dynamic> list = await fuelInfos() as dynamic;
-    list.addAll(await othersInfo() as dynamic);
+    list.addAll(await otherInfos() as dynamic);
 
     return list;
   }
@@ -75,18 +77,19 @@ class FuelDBHelper {
     });
   }
 
-  Future<List<dynamic>> othersInfo() async {
+  Future<List<dynamic>> otherInfos() async {
     final db = await fuelDB;
 
     final List<Map<String, dynamic>> maps = await db!.query('otherInfos');
 
     return List.generate(maps.length, (i) {
+      infoType = maps[i]['infoType'];
       return OtherInformation(
         date: maps[i]['date'],
-        totalAmount: maps[i]['totalAmount'],
+        totalPrice: maps[i]['totalPrice'],
         cm: maps[i]['cm'],
         memo: maps[i]['memo'],
-        infoType: maps[i]['infoType'],
+        infoType: infoTypeToEnum,
       );
     });
   }
@@ -172,5 +175,18 @@ class FuelDBHelper {
     }
 
     return sameMonthList;
+  }
+
+  InfoType get infoTypeToEnum {
+    switch (infoType) {
+      case 'parkingInfo':
+        return InfoType.parkingInfo;
+      case 'carWashInfo':
+        return InfoType.carWashInfo;
+      case 'repairInfo':
+        return InfoType.repairInfo;
+      default:
+        return InfoType.carWashInfo;
+    }
   }
 }
