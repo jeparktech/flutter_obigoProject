@@ -90,7 +90,6 @@ class _TransactionListState extends State<TransactionList> {
                       FuelDBHelper()
                           .deleteFuelInfo(fuelInfo.date); //fuelInfo DB에서 삭제
                       Navigator.pop(context);
-                      widget.callBack(widget.txList, fuelList);
                     } else if (info is OtherInformation) {
                       OtherInformation otherInfo = info;
                       print(
@@ -98,8 +97,11 @@ class _TransactionListState extends State<TransactionList> {
                       otherList.remove(otherInfo);
                       FuelDBHelper().deleteOthersInfo(otherInfo.id!);
                       Navigator.pop(context);
-                      widget.callBack(widget.txList, otherList);
                     }
+                    List<dynamic> editedList = [];
+                    editedList.addAll(fuelList as dynamic);
+                    editedList.addAll(otherList as dynamic);
+                    widget.callBack(widget.txList, editedList);
                   }),
             ],
           ),

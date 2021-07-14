@@ -26,6 +26,7 @@ class _CalendarState extends State<Calendar> {
   }
 
   void callBack(List<dynamic> initialInfos, List<dynamic> editiedInfos) {
+    print('callBack is called');
     setState(() {
       initialInfos = editiedInfos;
     });

@@ -194,7 +194,7 @@ class _ChartPageState extends State<ChartPage> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.35,
                         child: Text(
-                          "월별 주유량(km/L)",
+                          "월별 주유량 (L)",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,

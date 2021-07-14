@@ -150,11 +150,10 @@ class FuelDBHelper {
     return true;
   }
 
-  Future<bool> hasOthersInfo(String date) async {
+  Future<bool> hasOthersInfo(int id) async {
     final db = await fuelDB;
 
-    var res =
-        await db!.rawQuery('SELECT * FROM otherInfos WHERE date = ?', [date]);
+    var res = await db!.rawQuery('SELECT * FROM otherInfos WHERE id = ?', [id]);
 
     if (res == null) {
       return false;
