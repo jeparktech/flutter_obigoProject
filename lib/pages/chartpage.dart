@@ -133,8 +133,7 @@ class _ChartPageState extends State<ChartPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                      FittedBox(
                         child: Text(
                           "월별지출",
                           style: TextStyle(
@@ -144,8 +143,7 @@ class _ChartPageState extends State<ChartPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                      FittedBox(
                         child: Text(
                           "Total  ₩$totalAmount",
                           style: TextStyle(
@@ -192,9 +190,9 @@ class _ChartPageState extends State<ChartPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        width: MediaQuery.of(context).size.width * 0.5,
                         child: Text(
-                          "월별 주유량 (L)",
+                          "월별 주유량(L)",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -205,31 +203,28 @@ class _ChartPageState extends State<ChartPage> {
                     ],
                   ),
                 )),
-            Container(
-              height: 300,
-              child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    width: 800,
-                    color: primaryColor,
-                    child: SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        //zoomPanBehavior: _zoomPanBehavior,
-                        margin: EdgeInsets.all(20),
-                        primaryYAxis: NumericAxis(minimum: 10, maximum: 100),
-                        series: <CartesianSeries>[
-                          ColumnSeries<FuelQttData, String>(
-                              dataSource: chartBarData!,
-                              xValueMapper: (FuelQttData data, _) => data.month,
-                              yValueMapper: (FuelQttData data, _) => data.qtt,
-                              dataLabelSettings: DataLabelSettings(
-                                  isVisible: true, color: Colors.white),
-                              emptyPointSettings: EmptyPointSettings(
-                                  // Mode of empty point
-                                  mode: EmptyPointMode.average))
-                        ]),
-                  )),
-            ),
+            SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  width: 800,
+                  color: primaryColor,
+                  child: SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      //zoomPanBehavior: _zoomPanBehavior,
+                      margin: EdgeInsets.all(20),
+                      primaryYAxis: NumericAxis(minimum: 10, maximum: 100),
+                      series: <CartesianSeries>[
+                        ColumnSeries<FuelQttData, String>(
+                            dataSource: chartBarData!,
+                            xValueMapper: (FuelQttData data, _) => data.month,
+                            yValueMapper: (FuelQttData data, _) => data.qtt,
+                            dataLabelSettings: DataLabelSettings(
+                                isVisible: true, color: Colors.white),
+                            emptyPointSettings: EmptyPointSettings(
+                                // Mode of empty point
+                                mode: EmptyPointMode.average))
+                      ]),
+                )),
           ],
         ),
       ),
