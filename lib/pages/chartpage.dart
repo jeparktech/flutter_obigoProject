@@ -4,6 +4,7 @@ import 'package:flutter_obigoproject/models/expense.dart';
 import 'package:flutter_obigoproject/models/fuelInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_obigoproject/models/fuel_qtt_data.dart';
+import 'package:flutter_obigoproject/models/otherInfo.dart';
 
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -20,6 +21,7 @@ class ChartPage extends StatefulWidget {
 class _ChartPageState extends State<ChartPage> {
   List<FuelQttData>? chartBarData;
   List<FuelInformation>? _fuelList;
+  List<OtherInformation>? _othList;
 
   int? year;
   int? month;
@@ -43,25 +45,25 @@ class _ChartPageState extends State<ChartPage> {
     }
     return fuelInfoList;
   }
+  List<OtherInformation> getOtherInfoList() {
+    List<OtherInformation> otherInfoList = [];
 
-  List<FuelInformation> getMonthlyFuelList(int year, int month) {
-    List<FuelInformation> monthlyList = [];
-    DateTime createdDate;
-    for (int i = 0; i < _fuelList!.length; i++) {
-      createdDate = DateTime.parse(_fuelList![i].date);
-      if (createdDate.year == year && createdDate.month == month) {
-        monthlyList.add(_fuelList![i]);
+    for (var info in widget.list!) {
+      if (info is OtherInformation) {
+        otherInfoList.add(info);
       }
     }
-
-    return monthlyList;
+    return otherInfoList;
   }
+
+
 
   void initState() {
     _fuelList = getFuelInfoList();
+    _othList = getOtherInfoList();
     chartBarData = getChartBarData(getMonthlyFuelQtt(DateTime.now().year));
     _chartData = getPieChartData(
-        getMonthlyFuelList(DateTime.now().year, DateTime.now().month));
+        getMonthlyPieList(DateTime.now().year, DateTime.now().month));
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -113,7 +115,7 @@ class _ChartPageState extends State<ChartPage> {
                         month = dateTime.month;
                         Text(dateformat);
                         _chartData =
-                            getPieChartData(getMonthlyFuelList(year!, month!));
+                            getPieChartData(getMonthlyPieList(year!, month!));
                         chartBarData =
                             getChartBarData(getMonthlyFuelQtt(year!));
                       });
@@ -123,6 +125,40 @@ class _ChartPageState extends State<ChartPage> {
                 },
               ),
             ),
+            Container(
+                width: double.infinity,
+                height: 50,
+                color: primaryColor,
+                child: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        child: Text(
+                          "월별지출",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        child: Text(
+                          "Total  ₩$totalAmount",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
             Container(
               height: 200,
               width: double.infinity,
@@ -154,12 +190,12 @@ class _ChartPageState extends State<ChartPage> {
                 child: Padding(
                   padding: EdgeInsets.all(12),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.35,
                         child: Text(
-                          "Total  ₩$totalAmount",
+                          "월별 주유량",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -167,6 +203,7 @@ class _ChartPageState extends State<ChartPage> {
                           ),
                         ),
                       ),
+               
                     ],
                   ),
                 )),
@@ -236,21 +273,40 @@ class _ChartPageState extends State<ChartPage> {
     return chartBarData;
   }
 
-  List<Expense> getPieChartData(List<FuelInformation> list) {
-    gasAmount = 0;
-    maintenanceFee = 3000;
-    totalAmount = 0;
-    for (int i = 0; i < list.length; i++) {
-      gasAmount = gasAmount + list[i].totalPrice;
+   List<dynamic> getMonthlyPieList(int year, int month) {
+    List<dynamic> monthlyList = [];
+    
+    DateTime createdDate;
+    for (int i = 0; i < widget.list!.length; i++) {
+      createdDate = DateTime.parse(widget.list![i].date);
+      if (createdDate.year == year && createdDate.month == month) {
+        monthlyList.add(widget.list![i]);
+      }
     }
+
+    return monthlyList;
+  }
+
+  List<Expense> getPieChartData(List<dynamic> list) {
+    gasAmount = 0;
+    maintenanceFee = 0;
+    totalAmount = 0;
+    for(int i = 0; i < list.length; i++) {
+      if(list[i] is OtherInformation) {
+        maintenanceFee = maintenanceFee + list[i].totalPrice as int ;
+      } else {
+        gasAmount = gasAmount + list[i].totalPrice as int;
+      }
+    }
+
     final List<Expense> chartData = [
       Expense('주유', gasAmount),
-      Expense('정비', maintenanceFee)
+      Expense('기타', maintenanceFee)
     ];
     totalAmount = gasAmount + maintenanceFee;
     return chartData;
+  
   }
-
   Widget buildDatePicker() => SizedBox(
         height: 180,
         child: CupertinoDatePicker(
@@ -261,5 +317,5 @@ class _ChartPageState extends State<ChartPage> {
           onDateTimeChanged: (dateTime) =>
               setState(() => this.dateTime = dateTime),
         ),
-      );
+    );
 }
