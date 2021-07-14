@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_obigoproject/models/otherInfo.dart';
+import 'package:flutter_obigoproject/pages/edit_other_info_page.dart';
 import 'package:intl/intl.dart';
 
 import '../models/fuelInfo.dart';
@@ -35,18 +36,17 @@ class _TransactionListState extends State<TransactionList> {
   }
 
   List<OtherInformation> getOtherInfoList() {
-    List<OtherInformation> OtherInfoList = [];
+    List<OtherInformation> otherInfoList = [];
 
     for (var info in widget.txList) {
       if (info is OtherInformation) {
-        OtherInfoList.add(info);
+        otherInfoList.add(info);
       }
     }
-    return OtherInfoList;
+    return otherInfoList;
   }
 
-  openBottomSheet(
-      BuildContext context, List<dynamic> list, FuelInformation fuelInfo) {
+  openBottomSheet(BuildContext context, List<dynamic> list, dynamic info) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -62,22 +62,44 @@ class _TransactionListState extends State<TransactionList> {
                     child: Text("Edit"),
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamed(EditFuelInfoPage.routeName,
-                        arguments: {
-                          'fuelInfo': fuelInfo,
-                          'fuelList': fuelList
-                        });
+                    if (info is FuelInformation) {
+                      FuelInformation fuelInfo = info;
+                      Navigator.of(context)
+                          .pushNamed(EditFuelInfoPage.routeName, arguments: {
+                        'fuelInfo': fuelInfo,
+                        'fuelList': fuelList
+                      });
+                    } else if (info is OtherInformation) {
+                      OtherInformation otherInfo = info;
+                      Navigator.of(context)
+                          .pushNamed(EditOtherInfoPage.routeName, arguments: {
+                        'otherInfo': otherInfo,
+                        'otherList': otherList
+                      });
+                    }
                   }),
               ListTile(
                   title: Center(
                     child: Text("Delete"),
                   ),
                   onTap: () {
-                    fuelList.remove(fuelInfo); //fuelInfo list에서 삭제
-                    FuelDBHelper()
-                        .deleteFuelInfo(fuelInfo.date); //fuelInfo DB에서 삭제
-                    Navigator.pop(context);
-                    widget.callBack(widget.txList, fuelList);
+                    if (info is FuelInformation) {
+                      print('fuelInformation is deleting');
+                      FuelInformation fuelInfo = info;
+                      fuelList.remove(fuelInfo); //fuelInfo list에서 삭제
+                      FuelDBHelper()
+                          .deleteFuelInfo(fuelInfo.date); //fuelInfo DB에서 삭제
+                      Navigator.pop(context);
+                      widget.callBack(widget.txList, fuelList);
+                    } else if (info is OtherInformation) {
+                      OtherInformation otherInfo = info;
+                      print(
+                          'otherInformation is deleting, id: ${otherInfo.id}');
+                      otherList.remove(otherInfo);
+                      FuelDBHelper().deleteOthersInfo(otherInfo.id!);
+                      Navigator.pop(context);
+                      widget.callBack(widget.txList, otherList);
+                    }
                   }),
             ],
           ),

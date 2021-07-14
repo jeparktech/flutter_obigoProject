@@ -5,7 +5,7 @@ enum InfoType {
 }
 
 class OtherInformation {
-  String id = DateTime.now().toString();
+  int? id;
   String? date;
   int? totalPrice;
   int? cm; //cumulative mileage - 누적 주행거리
@@ -18,7 +18,20 @@ class OtherInformation {
     required this.cm,
     required this.infoType,
     this.memo,
-  });
+  }) {
+    id = customHashCode;
+  }
+
+  int get customHashCode {
+    int code = 0;
+    code += DateTime.parse(date!).day;
+    code += DateTime.parse(date!).month * 10;
+    code += DateTime.parse(date!).year * 100;
+    code += totalPrice! * 1000;
+    code += cm! * 10000;
+
+    return code;
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -45,6 +58,6 @@ class OtherInformation {
 
   @override
   String toString() {
-    return '종류: $infoType\n날짜: $date\n총액: $totalPrice\n누적 주행거리: $cm\n메모: $memo\n';
+    return 'id: $id\n종류: $infoType\n날짜: $date\n총액: $totalPrice\n누적 주행거리: $cm\n메모: $memo\n';
   }
 }

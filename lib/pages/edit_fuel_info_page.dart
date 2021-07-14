@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../widgets/edit_fuel_info.dart';
-import '../models/fuelInfo.dart';
 
 class EditFuelInfoPage extends StatelessWidget {
   static const routeName = '/edit-fuel-info';
