@@ -10,7 +10,11 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ChartPage extends StatefulWidget {
+<<<<<<< HEAD
   final List<dynamic>? list;
+=======
+  List<dynamic>? list;
+>>>>>>> 2980f1bf3b6b8574796132e0d549cc06f888b57d
 
   ChartPage({required this.list});
 
@@ -45,7 +49,10 @@ class _ChartPageState extends State<ChartPage> {
     }
     return fuelInfoList;
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2980f1bf3b6b8574796132e0d549cc06f888b57d
   List<OtherInformation> getOtherInfoList() {
     List<OtherInformation> otherInfoList = [];
 
@@ -57,6 +64,11 @@ class _ChartPageState extends State<ChartPage> {
     return otherInfoList;
   }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 2980f1bf3b6b8574796132e0d549cc06f888b57d
   void initState() {
     _fuelList = getFuelInfoList();
     _othList = getOtherInfoList();
@@ -202,6 +214,10 @@ class _ChartPageState extends State<ChartPage> {
                           ),
                         ),
                       ),
+<<<<<<< HEAD
+=======
+               
+>>>>>>> 2980f1bf3b6b8574796132e0d549cc06f888b57d
                     ],
                   ),
                 )),
@@ -271,9 +287,15 @@ class _ChartPageState extends State<ChartPage> {
     return chartBarData;
   }
 
+<<<<<<< HEAD
   List<dynamic> getMonthlyPieList(int year, int month) {
     List<dynamic> monthlyList = [];
 
+=======
+   List<dynamic> getMonthlyPieList(int year, int month) {
+    List<dynamic> monthlyList = [];
+    
+>>>>>>> 2980f1bf3b6b8574796132e0d549cc06f888b57d
     DateTime createdDate;
     for (int i = 0; i < widget.list!.length; i++) {
       createdDate = DateTime.parse(widget.list![i].date);
@@ -289,9 +311,15 @@ class _ChartPageState extends State<ChartPage> {
     gasAmount = 0;
     maintenanceFee = 0;
     totalAmount = 0;
+<<<<<<< HEAD
     for (int i = 0; i < list.length; i++) {
       if (list[i] is OtherInformation) {
         maintenanceFee = maintenanceFee + list[i].totalPrice as int;
+=======
+    for(int i = 0; i < list.length; i++) {
+      if(list[i] is OtherInformation) {
+        maintenanceFee = maintenanceFee + list[i].totalPrice as int ;
+>>>>>>> 2980f1bf3b6b8574796132e0d549cc06f888b57d
       } else {
         gasAmount = gasAmount + list[i].totalPrice as int;
       }
@@ -303,8 +331,13 @@ class _ChartPageState extends State<ChartPage> {
     ];
     totalAmount = gasAmount + maintenanceFee;
     return chartData;
+<<<<<<< HEAD
   }
 
+=======
+  
+  }
+>>>>>>> 2980f1bf3b6b8574796132e0d549cc06f888b57d
   Widget buildDatePicker() => SizedBox(
         height: 180,
         child: CupertinoDatePicker(
@@ -315,5 +348,9 @@ class _ChartPageState extends State<ChartPage> {
           onDateTimeChanged: (dateTime) =>
               setState(() => this.dateTime = dateTime),
         ),
+<<<<<<< HEAD
       );
+=======
+    );
+>>>>>>> 2980f1bf3b6b8574796132e0d549cc06f888b57d
 }
