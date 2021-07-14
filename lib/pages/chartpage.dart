@@ -193,9 +193,9 @@ class _ChartPageState extends State<ChartPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        width: MediaQuery.of(context).size.width * 0.5,
                         child: Text(
-                          "월별 주유량",
+                          "월별 주유량 (km/L)",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
