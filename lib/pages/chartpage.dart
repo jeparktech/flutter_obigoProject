@@ -134,8 +134,8 @@ class _ChartPageState extends State<ChartPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                      FittedBox(
+                      
                         child: Text(
                           "월별지출",
                           style: TextStyle(
@@ -145,8 +145,8 @@ class _ChartPageState extends State<ChartPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                      FittedBox(
+                      
                         child: Text(
                           "Total  ₩$totalAmount",
                           style: TextStyle(
@@ -195,7 +195,7 @@ class _ChartPageState extends State<ChartPage> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: Text(
-                          "월별 주유량 (km/L)",
+                          "월별 주유량 (L)",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
