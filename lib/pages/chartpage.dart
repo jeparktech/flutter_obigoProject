@@ -9,6 +9,7 @@ import 'package:flutter_obigoproject/models/otherInfo.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+
 class ChartPage extends StatefulWidget {
   List<dynamic>? list;
 
@@ -318,4 +319,4 @@ class _ChartPageState extends State<ChartPage> {
               setState(() => this.dateTime = dateTime),
         ),
     );
-}
+aca
