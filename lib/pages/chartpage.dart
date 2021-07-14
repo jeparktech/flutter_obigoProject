@@ -9,6 +9,7 @@ import 'package:flutter_obigoproject/models/otherInfo.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+
 class ChartPage extends StatefulWidget {
   final List<dynamic>? list;
 
@@ -192,7 +193,7 @@ class _ChartPageState extends State<ChartPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        width: MediaQuery.of(context).size.width * 0.5,
                         child: Text(
                           "월별 주유량(L)",
                           style: TextStyle(
