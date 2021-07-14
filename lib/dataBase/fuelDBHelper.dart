@@ -24,7 +24,7 @@ class FuelDBHelper {
         db.execute(
             'CREATE TABLE fuelInfos(date TEXT PRIMARY KEY, fuelType TEXT, unitPrice INTEGER, quantity REAL, totalPrice INTEGER)');
         db.execute(
-            'CREATE TABLE otherInfos(id TEXT PRIMARY KEY, date TEXT, totalPrice INTEGER, cm INTEGER, memo TEXT, infoType TEXT)');
+            'CREATE TABLE otherInfos(id INTEGER PRIMARY KEY, date TEXT, totalPrice INTEGER, cm INTEGER, memo TEXT, infoType TEXT)');
       },
       version: 1,
     );
@@ -128,13 +128,13 @@ class FuelDBHelper {
     );
   }
 
-  Future<void> deleteOthersInfo(String date) async {
+  Future<void> deleteOthersInfo(int id) async {
     final db = await fuelDB;
 
     await db!.delete(
       'otherInfos',
-      where: 'date = ?',
-      whereArgs: [date],
+      where: 'id = ?',
+      whereArgs: [id],
     );
   }
 
@@ -161,8 +161,6 @@ class FuelDBHelper {
     }
     return true;
   }
-
-
 
   InfoType get infoTypeToEnum {
     switch (infoType) {

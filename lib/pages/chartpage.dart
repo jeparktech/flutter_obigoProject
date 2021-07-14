@@ -11,7 +11,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 
 class ChartPage extends StatefulWidget {
-  List<dynamic>? list;
+  final List<dynamic>? list;
 
   ChartPage({required this.list});
 
@@ -46,6 +46,7 @@ class _ChartPageState extends State<ChartPage> {
     }
     return fuelInfoList;
   }
+
   List<OtherInformation> getOtherInfoList() {
     List<OtherInformation> otherInfoList = [];
 
@@ -56,8 +57,6 @@ class _ChartPageState extends State<ChartPage> {
     }
     return otherInfoList;
   }
-
-
 
   void initState() {
     _fuelList = getFuelInfoList();
@@ -204,7 +203,6 @@ class _ChartPageState extends State<ChartPage> {
                           ),
                         ),
                       ),
-               
                     ],
                   ),
                 )),
@@ -274,9 +272,9 @@ class _ChartPageState extends State<ChartPage> {
     return chartBarData;
   }
 
-   List<dynamic> getMonthlyPieList(int year, int month) {
+  List<dynamic> getMonthlyPieList(int year, int month) {
     List<dynamic> monthlyList = [];
-    
+
     DateTime createdDate;
     for (int i = 0; i < widget.list!.length; i++) {
       createdDate = DateTime.parse(widget.list![i].date);
@@ -292,9 +290,9 @@ class _ChartPageState extends State<ChartPage> {
     gasAmount = 0;
     maintenanceFee = 0;
     totalAmount = 0;
-    for(int i = 0; i < list.length; i++) {
-      if(list[i] is OtherInformation) {
-        maintenanceFee = maintenanceFee + list[i].totalPrice as int ;
+    for (int i = 0; i < list.length; i++) {
+      if (list[i] is OtherInformation) {
+        maintenanceFee = maintenanceFee + list[i].totalPrice as int;
       } else {
         gasAmount = gasAmount + list[i].totalPrice as int;
       }
@@ -306,8 +304,8 @@ class _ChartPageState extends State<ChartPage> {
     ];
     totalAmount = gasAmount + maintenanceFee;
     return chartData;
-  
   }
+
   Widget buildDatePicker() => SizedBox(
         height: 180,
         child: CupertinoDatePicker(
@@ -318,5 +316,5 @@ class _ChartPageState extends State<ChartPage> {
           onDateTimeChanged: (dateTime) =>
               setState(() => this.dateTime = dateTime),
         ),
-    );
-aca
+      );
+}
