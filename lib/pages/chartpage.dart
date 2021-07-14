@@ -135,7 +135,11 @@ class _ChartPageState extends State<ChartPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       FittedBox(
+<<<<<<< HEAD
                 
+=======
+                      
+>>>>>>> newbranch
                         child: Text(
                           "월별지출",
                           style: TextStyle(
@@ -146,7 +150,11 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                       ),
                       FittedBox(
+<<<<<<< HEAD
                      
+=======
+                      
+>>>>>>> newbranch
                         child: Text(
                           "Total  ₩$totalAmount",
                           style: TextStyle(
