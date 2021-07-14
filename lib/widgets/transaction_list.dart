@@ -34,13 +34,24 @@ class _TransactionListState extends State<TransactionList> {
     return fuelInfoList;
   }
 
+  List<OtherInformation> getOtherInfoList() {
+    List<OtherInformation> OtherInfoList = [];
+
+    for (var info in widget.txList) {
+      if (info is OtherInformation) {
+        OtherInfoList.add(info);
+      }
+    }
+    return OtherInfoList;
+  }
+
   openBottomSheet(
       BuildContext context, List<dynamic> list, FuelInformation fuelInfo) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         List<FuelInformation> fuelList = getFuelInfoList();
-        List<OtherInformation> otherList;
+        List<OtherInformation> otherList = getOtherInfoList();
         return Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
