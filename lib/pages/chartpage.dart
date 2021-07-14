@@ -134,8 +134,8 @@ class _ChartPageState extends State<ChartPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                      FittedBox(
+                
                         child: Text(
                           "월별지출",
                           style: TextStyle(
@@ -145,8 +145,8 @@ class _ChartPageState extends State<ChartPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
+                      FittedBox(
+                     
                         child: Text(
                           "Total  ₩$totalAmount",
                           style: TextStyle(
@@ -206,11 +206,9 @@ class _ChartPageState extends State<ChartPage> {
                     ],
                   ),
                 )),
-            Container(
-              height: 300,
-              child: SingleChildScrollView(
+        SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Container(
+                  child: Container( 
                     width: 800,
                     color: primaryColor,
                     child: SfCartesianChart(
@@ -230,7 +228,7 @@ class _ChartPageState extends State<ChartPage> {
                                   mode: EmptyPointMode.average))
                         ]),
                   )),
-            ),
+            
           ],
         ),
       ),
